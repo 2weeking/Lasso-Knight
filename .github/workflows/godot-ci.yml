@@ -4,7 +4,6 @@ on: push
 env:
   GODOT_VERSION: 4.1.1
   EXPORT_NAME: LassoKnight
-  PROJECT_PATH: LassoKnight
   
 jobs:
   export-web:
@@ -24,7 +23,6 @@ jobs:
       - name: Web Build
         run: |
           mkdir -v -p build/web
-          cd $PROJECT_PATH
           godot -v --export "HTML5" ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
