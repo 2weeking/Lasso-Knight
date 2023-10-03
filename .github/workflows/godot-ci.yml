@@ -1,6 +1,8 @@
 name: "godot-ci"
 on: push
-
+# https://github.com/godotengine/godot/releases/download/4.1.1-stable/Godot_v4.1.1-stable_export_templates.tpz
+# /github/home/.local/share/godot/export_templates/4.1.1.stable/web_release.zip
+# https://github.com/godotengine/godot/releases/download/4.1.1-stable/Godot_v4.1.1-stable_web_editor.zip
 env:
   GODOT_VERSION: 4.1.1
   EXPORT_NAME: LassoKnight
@@ -18,8 +20,10 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_web_editor.zip -o /github/home/.local/share/godot/export_templates/${GODOT_VERSION}.stable/web_release.zip
+          ls -lah /github/home/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+# mkdir -v -p ~/.local/share/godot/templates
+# mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Web Build
         run: |
           mkdir -v -p build/web
