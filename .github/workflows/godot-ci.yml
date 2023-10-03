@@ -20,8 +20,8 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_web_editor.zip -o ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/web_release.zip
+          mkdir -v -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_web_editor.zip -O ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/web_release.zip
           ls -lah ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
 # mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Web Build
