@@ -4,30 +4,31 @@ on: push
 # /github/home/.local/share/godot/export_templates/4.1.1.stable/web_release.zip
 # https://github.com/godotengine/godot/releases/download/4.1.1-stable/Godot_v4.1.1-stable_web_editor.zip
 env:
-  GODOT_VERSION: 4.1.1
+  GODOT_VERSION: 4.1.2
   EXPORT_NAME: LassoKnight
   
 jobs:
   export-web:
     name: Web Export
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.1.1
+    #container:
+    #  image: barichello/godot-ci:4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           lfs: true
       - name: Setup
-        run: |
+        run: | # Download Godot Binary
+          wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+
           mkdir -v -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
           wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_web_editor.zip -O ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/web_release.zip
-          ls -lah ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
-# mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Web Build
         run: |
           mkdir -v -p build/web
-          godot -v --headless --export-release "Web" ../build/web/index.html
+          ./Godot_v${GODOT_VERSION}-stable_linux.x86_64 -v --headless --export-release "Web" ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
