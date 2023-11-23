@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://ccpgp2pqa5e3v"]
 
-[ext_resource type="Script" path="res://entities/Player/Player.gd" id="1_vtt6c"]
-[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_3hk3w"]
-[ext_resource type="Script" path="res://entities/Player/Camera2D.gd" id="3_xp4co"]
-[ext_resource type="PackedScene" uid="uid://c5whdalhv1r7i" path="res://entities/Lasso/Lasso.tscn" id="4_j0bpy"]
+[ext_resource type="Script" path="res://entities/player/player.gd" id="1_oueme"]
+[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_wbjby"]
+[ext_resource type="Script" path="res://entities/player/Camera2D.gd" id="3_hpg2j"]
+[ext_resource type="PackedScene" uid="uid://c5whdalhv1r7i" path="res://entities/lasso/lasso.tscn" id="4_fpokn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6r81l"]
 size = Vector2(120, 120)
@@ -11,15 +11,15 @@ size = Vector2(120, 120)
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
-script = ExtResource("1_vtt6c")
+script = ExtResource("1_oueme")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_3hk3w")
+texture = ExtResource("2_wbjby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6r81l")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("3_xp4co")
+script = ExtResource("3_hpg2j")
 
-[node name="Lasso" parent="." instance=ExtResource("4_j0bpy")]
+[node name="Lasso" parent="." instance=ExtResource("4_fpokn")]
