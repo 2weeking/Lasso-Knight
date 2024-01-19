@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlrfyj8y3sobx"]
+
+[ext_resource type="Script" path="res://addons/ropesim/RopeHandle.gd" id="1_3v13b"]
+[ext_resource type="Script" path="res://addons/ropesim/RopeAnchor.gd" id="2_60osf"]
+[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="3_t3x7v"]
+[ext_resource type="Script" path="res://addons/ropesim/Rope.gd" id="4_ytdbs"]
+[ext_resource type="Script" path="res://addons/ropesim/RopeRendererLine2D.gd" id="5_8a6rj"]
+
+[node name="main" type="Node2D"]
+
+[node name="RopeHandle" type="Marker2D" parent="."]
+position = Vector2(10, 76)
+script = ExtResource("1_3v13b")
+rope_path = NodePath("../Rope")
+rope_position = 0.62
+
+[node name="RopeAnchor" type="Marker2D" parent="."]
+position = Vector2(-74.7367, 118.362)
+script = ExtResource("2_60osf")
+rope_path = NodePath("../Rope")
+rope_position = 0.25
+
+[node name="Icon" type="Sprite2D" parent="RopeAnchor"]
+position = Vector2(0, 32)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_t3x7v")
+
+[node name="RopeAnchor2" type="Marker2D" parent="."]
+position = Vector2(0.422913, 182.689)
+script = ExtResource("2_60osf")
+rope_path = NodePath("../Rope")
+
+[node name="Icon" type="Sprite2D" parent="RopeAnchor2"]
+position = Vector2(0, 32)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_t3x7v")
+
+[node name="Rope" type="Node2D" parent="."]
+texture_repeat = 2
+position = Vector2(-127, 99)
+script = ExtResource("4_ytdbs")
+num_segments = 20
+rope_length = 200.0
+damping = 10.0
+render_line = false
+metadata/_edit_group_ = true
+
+[node name="RopeRendererLine2D" type="Line2D" parent="Rope"]
+show_behind_parent = true
+points = PackedVector2Array(0, 0, 9.6824, 5.78032, 19.6944, 10.9079, 30.1618, 15.0227, 41.0617, 17.8952, 52.2633, 19.3615, 63.5503, 19.3357, 74.6639, 17.8486, 85.367, 15.0567, 95.5051, 11.2217, 105.07, 6.73441, 114.385, 2.41788, 124.407, 1.79848, 127.057, 11.782, 127.378, 22.19, 127.419, 32.6214, 127.423, 43.0208, 127.423, 53.348, 127.423, 63.5753, 127.423, 73.6889, 127.423, 83.6889)
+texture = ExtResource("3_t3x7v")
+texture_mode = 1
+script = ExtResource("5_8a6rj")
