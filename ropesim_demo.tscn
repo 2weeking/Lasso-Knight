@@ -15,7 +15,7 @@ rope_path = NodePath("../Rope")
 rope_position = 0.62
 
 [node name="RopeAnchor" type="Marker2D" parent="."]
-position = Vector2(-74.7367, 118.362)
+position = Vector2(-74.91, 118.684)
 script = ExtResource("2_60osf")
 rope_path = NodePath("../Rope")
 rope_position = 0.25
@@ -26,7 +26,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_t3x7v")
 
 [node name="RopeAnchor2" type="Marker2D" parent="."]
-position = Vector2(0.422913, 182.689)
+position = Vector2(-2.42667, 182.996)
 script = ExtResource("2_60osf")
 rope_path = NodePath("../Rope")
 
@@ -47,7 +47,7 @@ metadata/_edit_group_ = true
 
 [node name="RopeRendererLine2D" type="Line2D" parent="Rope"]
 show_behind_parent = true
-points = PackedVector2Array(0, 0, 9.6824, 5.78032, 19.6944, 10.9079, 30.1618, 15.0227, 41.0617, 17.8952, 52.2633, 19.3615, 63.5503, 19.3357, 74.6639, 17.8486, 85.367, 15.0567, 95.5051, 11.2217, 105.07, 6.73441, 114.385, 2.41788, 124.407, 1.79848, 127.057, 11.782, 127.378, 22.19, 127.419, 32.6214, 127.423, 43.0208, 127.423, 53.348, 127.423, 63.5753, 127.423, 73.6889, 127.423, 83.6889)
+points = PackedVector2Array(0, 0, 9.62862, 5.85561, 19.5934, 11.0581, 30.0246, 15.2437, 40.901, 18.1759, 52.09, 19.6836, 63.37, 19.6761, 74.4754, 18.1853, 85.1649, 15.3738, 95.2827, 11.5104, 104.822, 6.98985, 114.108, 2.63309, 124.125, 2.03742, 126.452, 12.1008, 126.497, 22.5153, 126.258, 32.947, 125.965, 43.3458, 125.649, 53.6712, 125.312, 63.8952, 124.954, 74.0037, 124.573, 83.9965)
 texture = ExtResource("3_t3x7v")
 texture_mode = 1
 script = ExtResource("5_8a6rj")

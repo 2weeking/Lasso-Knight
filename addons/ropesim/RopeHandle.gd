@@ -14,7 +14,6 @@ signal on_before_update()
 @export var precise: bool = false
 var _helper: RopeToolHelper
 
-
 func _init() -> void:
 	if not _helper:
 		_helper = RopeToolHelper.new(RopeToolHelper.UPDATE_HOOK_PRE, self, "_on_pre_update")
