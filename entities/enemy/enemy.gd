@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
-const SPEED = 100.0
-
+@export var SPEED = 50.0
 @export var player : CharacterBody2D
 
-func _physics_process(_delta):
-	if player:
+func _physics_process(_delta):	
+	if is_instance_valid(player):
 		var direction = (player.position - position).normalized()
 		velocity = direction * SPEED
+	
 	move_and_slide()

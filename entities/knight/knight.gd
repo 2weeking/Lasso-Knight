@@ -30,6 +30,19 @@ func _physics_process(delta):
 			lasso_path.progress_ratio = 0
 			lassoed = false
 	
+	# Absorb Captured Enemies
+	var collision = get_last_slide_collision()
+	if collision is KinematicCollision2D and is_instance_valid(collision) and not collision.is_queued_for_deletion():
+		if collision.get_collider():
+			var body = collision.get_collider()
+			if body.is_in_group("enemies") and body.is_in_group("captured"):
+				# Delete rope corresponding to collided enemy
+				var children = body.get_children()
+				for child in children:
+					if child is RopeHandle:
+						get_node(child.rope_path).queue_free()
+				body.queue_free()
+	
 	velocity = input_direction * move_speed
 	
 	move_and_slide()
@@ -46,9 +59,9 @@ func reel_in(body):
 	body.add_child(captured_lasso_handle)
 	# Connect rope from knight to body
 	captured_lasso_handle.set_rope_path(captured_lasso.get_path())
-	# slowly reel in overtime towards knight
-	
 	# delete body at end
+	if is_in_group("captured"):
+		body.SPEED = 200.0
 
 func _on_lasso_body_entered(body):
 	if body.is_in_group("enemies") and not body.is_in_group("captured"):
