@@ -1,8 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://ob6xakhawilr"]
+[gd_scene load_steps=3 format=3 uid="uid://ob6xakhawilr"]
 
 [ext_resource type="PackedScene" uid="uid://dja6ht0ohfpye" path="res://entities/knight/knight.tscn" id="1_l1ejl"]
+[ext_resource type="PackedScene" uid="uid://kb5gbb0qudm3" path="res://entities/enemy/enemy.tscn" id="2_o46i8"]
 
 [node name="Level0" type="Node2D"]
 
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
-position = Vector2(223, 75)
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+position = Vector2(297, -6)
+player = NodePath("../Knight")
+
+[node name="Enemy2" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+position = Vector2(51, 148)
+player = NodePath("../Knight")
+
+[node name="Enemy3" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+position = Vector2(26, -124)
+player = NodePath("../Knight")
+
+[node name="Enemy4" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+position = Vector2(-182, 17)
+player = NodePath("../Knight")

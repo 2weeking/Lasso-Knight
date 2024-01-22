@@ -10,7 +10,7 @@ signal on_before_update()
 @export var rope_position = 1.0  # Position on the rope between 0 and 1. # (float, 0, 1)
 @export var smoothing: bool = false  # Whether to smoothly snap to RopeHandle's position instead of instantly.
 @export var position_smoothing_speed: float = 0.5  # Smoothing speed
-## If false, only affect the nearest vertex on the rope. Otherwise, affect both surrounding points when applicable.
+## If false, only affect the nearest vsdertex on the rope. Otherwise, affect both surrounding points when applicable.
 @export var precise: bool = false
 var _helper: RopeToolHelper
 
