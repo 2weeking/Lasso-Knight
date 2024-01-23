@@ -17,6 +17,7 @@ signal hp_changed(old_value: int, new_value: int)
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var lasso = $Lasso
+@onready var lasso_animation = $Lasso/AnimationPlayer
 
 func die():
 	queue_free()
@@ -37,6 +38,7 @@ func _physics_process(_delta):
 	
 	# Lasso
 	if Input.is_action_just_pressed("m1"):
+		lasso_animation.play("whip")
 		lasso.look_at(get_global_mouse_position())
 	
 	# Captured enemies in dictionary {body: rope} pair
