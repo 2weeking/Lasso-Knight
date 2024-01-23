@@ -1,11 +1,28 @@
 extends CharacterBody2D
 
+signal hp_changed(old_value: int, new_value: int)
+
+@export var hp : int = 3 :
+	get:
+		return hp
+	set(new_hp):
+		if new_hp <= 0:
+			die()
+		hp_changed.emit(hp, new_hp)
+		hp = new_hp
+
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2.0
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var lasso = $Lasso
+
+func die():
+	queue_free()
+
+func _ready():
+	hp = hp
 
 # key: value pair
 # {body: rope}
@@ -25,20 +42,7 @@ func _physics_process(_delta):
 	# Captured enemies in dictionary {body: rope} pair
 	for body in captured_enemies:
 		var rope = captured_enemies[body]
-		#rope.set_point_position(1, to_local(body.position))
 		rope.points = lasso_to_curve(Vector2.ZERO, to_local(body.position))
-	
-	# Absorb Captured Enemies
-	var collision = get_last_slide_collision()
-	if collision is KinematicCollision2D and is_instance_valid(collision) and not collision.is_queued_for_deletion():
-		if collision.get_collider():
-			var body = collision.get_collider()
-			if body.is_in_group("enemies") and body.is_in_group("captured"):
-				# Delete rope and enemy attached
-				captured_enemies[body].queue_free()
-				body.queue_free()
-				# Remove enemy and rope entries from captured_enemy dictionary
-				captured_enemies.erase(body)
 	
 	velocity = input_direction * move_speed
 	
@@ -64,8 +68,6 @@ func reel_in(body):
 	add_child(rope)
 	# Add rope point on knight and enemy and connect (relative position to knight)
 	rope.points = lasso_to_curve(Vector2.ZERO, to_local(body.position))
-	#rope.add_point(Vector2.ZERO)
-	#rope.add_point(to_local(body.position))
 	# Save captured enemies in array to continiously update in process function
 	captured_enemies[body] = rope
 
@@ -73,3 +75,15 @@ func _on_lasso_body_entered(body):
 	if body.is_in_group("enemies") and not body.is_in_group("captured"):
 		body.add_to_group("captured")
 		reel_in(body)
+
+func _on_hitbox_body_entered(body):
+	print_debug(body)
+	if body.is_in_group("enemies"):
+		if body.is_in_group("captured"):
+			# Delete rope and enemy attached
+			captured_enemies[body].queue_free()
+			body.queue_free()
+			# Remove enemy and rope entries from captured_enemy dictionary
+			captured_enemies.erase(body)
+		else:
+			hp -= 1
