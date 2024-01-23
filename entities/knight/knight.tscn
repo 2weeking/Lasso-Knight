@@ -1,11 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=13 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_bm21e"]
 [ext_resource type="Script" path="res://entities/knight/Camera2D.gd" id="3_56ek5"]
-[ext_resource type="Script" path="res://addons/ropesim/RopeHandle.gd" id="4_1brt7"]
-[ext_resource type="Script" path="res://addons/ropesim/RopeCollisionShapeGenerator.gd" id="4_7jwib"]
-[ext_resource type="Script" path="res://addons/ropesim/Rope.gd" id="4_s0s8q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
 size = Vector2(32, 32)
@@ -39,11 +36,8 @@ states/Walk/position = Vector2(468, 109)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qojdq"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_1x020")]
 graph_offset = Vector2(-394, -7)
 
-[sub_resource type="Curve2D" id="Curve2D_yi1ej"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -44.5, 0, 44.5, 0, 63, -51.75, 0, 0, 0, 0, 165, -1.91667, 72.1182, 0.280615, -72.1182, -0.280615, 63, 64.2083, 0, 0, 0, 0, 0, 0)
-}
-point_count = 5
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ll1tg"]
+size = Vector2(61, 20)
 
 [node name="Knight" type="CharacterBody2D"]
 script = ExtResource("1_bwy00")
@@ -76,27 +70,7 @@ script = ExtResource("3_56ek5")
 
 [node name="Lasso" type="Area2D" parent="."]
 
-[node name="RopeCollisionShapeGenerator" type="Node" parent="Lasso"]
-script = ExtResource("4_7jwib")
-rope_path = NodePath("../Rope")
-
-[node name="Rope" type="Node2D" parent="Lasso"]
-script = ExtResource("4_s0s8q")
-rope_length = 130.0
-gravity = 50.0
-color = Color(0.556863, 0.301961, 0.117647, 1)
-
-[node name="Path2D" type="Path2D" parent="Lasso"]
-scale = Vector2(1, 1.04348)
-curve = SubResource("Curve2D_yi1ej")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Lasso/Path2D"]
-rotation = 3.14159
-rotates = false
-loop = false
-
-[node name="RopeHandle" type="Marker2D" parent="Lasso/Path2D/PathFollow2D"]
-script = ExtResource("4_1brt7")
-rope_path = NodePath("../../../Rope")
-
-[connection signal="body_entered" from="Lasso" to="." method="_on_lasso_body_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lasso"]
+position = Vector2(66.5, 0)
+shape = SubResource("RectangleShape2D_ll1tg")
+debug_color = Color(0.87451, 0.227451, 0.654902, 0.419608)
