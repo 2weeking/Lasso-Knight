@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=16 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_bm21e"]
@@ -38,8 +38,11 @@ states/Walk/position = Vector2(468, 109)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qojdq"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_1x020")]
 graph_offset = Vector2(-394, -7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
+size = Vector2(38, 38)
 
 [node name="Knight" type="CharacterBody2D"]
 collision_layer = 2
@@ -71,13 +74,21 @@ process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_56ek5")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_nid7g")
+debug_color = Color(0.266667, 0.623529, 0.317647, 0.419608)
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_an74c")
-debug_color = Color(0, 0.65098, 0.0666667, 0.419608)
+debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="Lasso" parent="." instance=ExtResource("4_hfbal")]
 
@@ -87,4 +98,5 @@ debug_color = Color(0, 0.65098, 0.0666667, 0.419608)
 offset = Vector2(10, 10)
 transform = Transform2D(0.1, 0, 0, 0.1, 10, 10)
 
-[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_hurtbox_body_entered"]

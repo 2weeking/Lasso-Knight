@@ -32,20 +32,21 @@ func _physics_process(_delta):
 	)
 	
 	# Lasso
-	if Input.is_action_just_pressed("m1"):
+	if Input.is_action_just_pressed("whip"):
 		lasso.whip(get_global_mouse_position())
 	
 	velocity = input_direction * move_speed
 	
 	move_and_slide()
 
-func _on_hitbox_body_entered(body):
-	if body.is_in_group("enemies"):
-		if body.is_in_group("captured"):
-			# Delete rope and enemy attached
-			lasso.captured_enemies[body].queue_free()
-			body.queue_free()
-			# Remove enemy and rope entries from captured_enemy dictionary
-			lasso.captured_enemies.erase(body)
-		else:
-			hp -= 1
+func _on_hit_box_body_entered(body):
+	if body.is_in_group("enemies") and not body.is_in_group("captured"):
+		hp -= body.damage
+
+func _on_hurtbox_body_entered(body):
+	if body.is_in_group("enemies") and body.is_in_group("captured"):
+		# Delete rope and enemy attached
+		lasso.captured_enemies[body].queue_free()
+		body.queue_free()
+		# Remove enemy and rope entries from captured_enemy dictionary
+		lasso.captured_enemies.erase(body)

@@ -1,6 +1,11 @@
 extends Area2D
 
-@onready var animation_player = $AnimationPlayer
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
+
+@export var reel_rate : float = 7.0
+@export var lasso_curve : float = 50.0
+@export var lasso_width : float = 2.0
+@export var lasso_color : Color = Color(0.588, 0.447, 0.349)
 
 # key: value pair
 # {body: rope}
@@ -12,7 +17,8 @@ func _physics_process(delta):
 		var rope = captured_enemies[body]
 		rope.points = lasso_to_curve(Vector2.ZERO, to_local(body.position))
 		# Slowly increase reeling speed
-		body.speed += 7 * delta
+		if Input.is_action_pressed("reel_in"):
+			body.speed += reel_rate
 
 func whip(mouse_pos):
 	look_at(mouse_pos)
@@ -23,9 +29,9 @@ func lasso_to_curve(p0_vertex: Vector2, p1_vertex: Vector2):
 	# Adjust curves to change sides
 	var p0_out = Vector2.ZERO
 	if p0_vertex.x > p1_vertex.x:
-		p0_out = Vector2(-50, 0)
+		p0_out = Vector2(-lasso_curve, 0)
 	else:
-		p0_out = Vector2(50, 0)
+		p0_out = Vector2(lasso_curve, 0)
 	curve.add_point(p0_vertex, Vector2.ZERO, p0_out);
 	curve.add_point(p1_vertex, Vector2.ZERO, Vector2.ZERO);
 	return curve.get_baked_points()
@@ -33,8 +39,8 @@ func lasso_to_curve(p0_vertex: Vector2, p1_vertex: Vector2):
 func reel_in(body):
 	# Instance new rope on knight
 	var rope = Line2D.new()
-	rope.width = 2
-	rope.default_color = Color(0.588, 0.447, 0.349)
+	rope.width = lasso_width
+	rope.default_color = lasso_color
 	add_child(rope)
 	# Add rope point on knight and enemy and connect (relative position to knight)
 	rope.points = lasso_to_curve(Vector2.ZERO, to_local(body.position))
