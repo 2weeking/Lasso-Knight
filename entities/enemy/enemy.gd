@@ -1,11 +1,15 @@
 extends CharacterBody2D
 
-@export var SPEED = 50.0
-@export var player : CharacterBody2D
+@export var speed = 0.5
+@onready var player = get_parent().get_node("Knight")
 
-func _physics_process(delta):	
+func _physics_process(delta):
 	if is_instance_valid(player):
-		var direction = (player.position - position).normalized()
-		velocity = direction * SPEED
+		position = position.lerp(player.position, speed * delta)
+		#var direction = (player.position - position).normalized()
+		#velocity = direction * speed
 	
-	move_and_collide(velocity * delta)
+	#if is_in_group("captured"):
+		
+	
+	#move_and_collide(velocity * delta)

@@ -11,6 +11,8 @@ func _physics_process(delta):
 	for body in captured_enemies:
 		var rope = captured_enemies[body]
 		rope.points = lasso_to_curve(Vector2.ZERO, to_local(body.position))
+		# Slowly increase reeling speed
+		body.speed += 7 * delta
 
 func whip(mouse_pos):
 	look_at(mouse_pos)

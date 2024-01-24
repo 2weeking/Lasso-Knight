@@ -8,18 +8,14 @@
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
 position = Vector2(31, 19)
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+[node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(297, -6)
-player = NodePath("../Knight")
 
-[node name="Enemy2" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+[node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(51, 148)
-player = NodePath("../Knight")
 
-[node name="Enemy3" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+[node name="Enemy3" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(26, -124)
-player = NodePath("../Knight")
 
-[node name="Enemy4" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("2_o46i8")]
+[node name="Enemy4" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(-182, 17)
-player = NodePath("../Knight")
