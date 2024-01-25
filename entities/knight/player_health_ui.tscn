@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://dvlia5gva2tk"]
 
-[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="1_0v6dv"]
+[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://Temporary Sprites/icon.svg" id="1_0v6dv"]
 [ext_resource type="Script" path="res://entities/knight/player_health_ui.gd" id="1_cgnw3"]
+
 
 [node name="PlayerHealthUI" type="CanvasLayer"]
 scale = Vector2(0.1, 0.1)
