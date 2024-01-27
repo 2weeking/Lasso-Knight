@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=17 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://Temporary Sprites/icon.svg" id="2_bm21e"]
@@ -38,6 +38,9 @@ states/Walk/position = Vector2(468, 109)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qojdq"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_1x020")]
 graph_offset = Vector2(-394, -7)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_mtcxo"]
+radius = 100.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
 
@@ -74,6 +77,14 @@ process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_56ek5")
 
+[node name="SenseRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SenseRange"]
+shape = SubResource("CircleShape2D_mtcxo")
+one_way_collision_margin = 0.0
+
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 4
@@ -98,5 +109,6 @@ debug_color = Color(1, 0, 0, 0.419608)
 offset = Vector2(10, 10)
 transform = Transform2D(0.1, 0, 0, 0.1, 10, 10)
 
+[connection signal="body_entered" from="SenseRange" to="." method="_on_sense_range_body_entered"]
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_hurtbox_body_entered"]

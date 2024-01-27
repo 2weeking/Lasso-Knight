@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 signal hp_changed(old_value: int, new_value: int)
-
+signal alarmed()
 @export var hp : int = 3 :
 	get:
 		return hp
@@ -14,6 +14,8 @@ signal hp_changed(old_value: int, new_value: int)
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2.0
 
+
+@onready var sense_range = $SenseRange
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var lasso = $Lasso
@@ -50,3 +52,10 @@ func _on_hurtbox_body_entered(body):
 		body.queue_free()
 		# Remove enemy and rope entries from captured_enemy dictionary
 		lasso.captured_enemies.erase(body)
+		
+
+func _on_sense_range_body_entered(body):
+	if body.is_in_group("enemies") and not body.is_in_group("captured"):
+		sense_range.body_entered.connect(body._on_alarmed)
+	sense_range.emit_signal("body_entered")
+

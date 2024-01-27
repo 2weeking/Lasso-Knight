@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var player = get_parent().get_node("Knight")
 @onready var timer = $Timer
 
+var alarmed = false
 var current_speed = 50
 var make_charge = true
 var direction = Vector2(0, 0)
@@ -13,18 +14,21 @@ func _ready():
 	timer.timeout.connect(_timeout)
 
 func _physics_process(delta):
-	if(timer.is_stopped()):
-		current_speed = walk_speed
-		timer.start(7)
 	
-	
-	if is_instance_valid(player):
-		#position = position.lerp(player.position, speed * delta)
-		if(current_speed==walk_speed):
-			direction = (player.position - position).normalized()
-		velocity = direction * current_speed
-	
-	move_and_collide(velocity * delta)
+	if(alarmed):
+		
+		if(timer.is_stopped()):
+			current_speed = walk_speed
+			timer.start(7)
+		
+		
+		if is_instance_valid(player):
+			#position = position.lerp(player.position, speed * delta)
+			if(current_speed==walk_speed):
+				direction = (player.position - position).normalized()
+			velocity = direction * current_speed
+		
+		move_and_collide(velocity * delta)
 	
 func _timeout():
 	if(make_charge):
@@ -34,3 +38,7 @@ func _timeout():
 	else:
 		make_charge = true
 	
+func _on_alarmed():
+	var direction = (player.position - position).normalized()
+	velocity = direction*walk_speed
+	alarmed = true

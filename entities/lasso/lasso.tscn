@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://Temporary Sprites/icon.svg" id="1_6ehid"]
 [ext_resource type="Script" path="res://entities/lasso/lasso.gd" id="1_jdqbl"]
 
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uhr6h"]
 size = Vector2(92, 20)
 

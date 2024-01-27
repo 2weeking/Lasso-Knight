@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnnq6e08lqpyo"]
+
+[ext_resource type="Texture2D" uid="uid://byiwkxevc228r" path="res://Temporary Sprites/Characters/Free Chicken Sprites.png" id="1_4o7h1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxj8i"]
+
+[node name="SeedShooter" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4o7h1")
+hframes = 4
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wxj8i")

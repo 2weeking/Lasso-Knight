@@ -7,13 +7,16 @@
 [node name="Level0" type="Node2D"]
 
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
-position = Vector2(31, 19)
+position = Vector2(105, 21)
+hp = 3
+move_speed = 150.0
+lasso_speed = 2.0
 
 [node name="Charger" parent="." groups=["enemies"] instance=ExtResource("2_6c1s6")]
 position = Vector2(293, 96)
 
 [node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
-position = Vector2(297, -6)
+position = Vector2(346, 2)
 
 [node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(51, 148)
