@@ -16,7 +16,6 @@ func _ready():
 func _physics_process(delta):
 	
 	if(alarmed):
-		
 		if(timer.is_stopped()):
 			current_speed = walk_speed
 			timer.start(7)
