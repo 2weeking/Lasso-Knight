@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6opa2371e4kw"]
+
+[ext_resource type="Script" path="res://entities/lasso/rope_piece.gd" id="1_8nh5e"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8kwix"]
+radius = 2.0
+height = 10.0
+
+[node name="RopePiece" type="RigidBody2D"]
+position = Vector2(0, 2)
+collision_layer = 8
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_8nh5e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_8kwix")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="CollisionShape2D"]
+position = Vector2(0, 5)
+bias = 0.1
+softness = 0.1
