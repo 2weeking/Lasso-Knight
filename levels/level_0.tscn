@@ -15,7 +15,7 @@ offset_bottom = -59.0
 texture = SubResource("CanvasTexture_yebod")
 
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
-position = Vector2(31, 19)
 
-[node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
-position = Vector2(297, -6)
+[node name="Enemy" parent="." instance=ExtResource("2_o46i8")]
+position = Vector2(130, 2)
+speed = 100

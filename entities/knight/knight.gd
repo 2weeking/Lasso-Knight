@@ -13,16 +13,15 @@ signal hp_changed(old_value: int, new_value: int)
 
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2.0
-@export var constraint : float = 10.0
 
+@onready var lasso = preload("res://entities/lasso/verlet_rope.tscn")
 @onready var hurtbox = $HurtBox
 
 @onready var animation_player = $AnimationPlayer
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 
-@onready var rope_obj = preload("res://entities/lasso/rope.tscn")
-@onready var rope_end_piece = preload("res://entities/lasso/rope_end_piece.tscn")
+var desired_velocity = Vector2.ZERO
 
 var bodies = []
 
@@ -44,33 +43,30 @@ func _physics_process(_delta):
 		hurtbox.look_at(get_global_mouse_position())
 		animation_player.play("attack")
 	
-	velocity = input_direction * move_speed
+	desired_velocity = input_direction * move_speed
+	
+	velocity = desired_velocity
 	
 	for body in bodies:
-		if (int(velocity.x) ^ int(body.velocity.x)) < 0:
-			print(body.velocity.normalized())
-			if abs(velocity.x - body.velocity.x) < constraint:
-				body.velocity = Vector2.ZERO
-			velocity += body.velocity
+		velocity -= body.desired_velocity
 	
 	move_and_slide()
 
+
+var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
+
 func add_new_rope(body):
-	body.add_to_group("captured")
-	var rope = rope_obj.instantiate()
-	var rope_start = rope_end_piece.instantiate()
-	add_child(rope_start)
-	var rope_end = rope_end_piece.instantiate()
-	body.add_child(rope_end)
-	rope.rope_start_piece = rope_start
-	rope.rope_end_piece = rope_end
+	var rope = verlet_rope.instantiate()
+	rope.origin = self
+	rope.target = body
 	get_parent().add_child(rope)
-	rope.spawn_rope()
 
 func _on_hit_box_body_entered(body):
-	if body.is_in_group("enemies") and not body.is_in_group("captured"):
+	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		hp -= body.damage
+
 func _on_hurtbox_body_entered(body):
-	if body.is_in_group("enemies") and not body.is_in_group("captured"):
+	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		call_deferred("add_new_rope", body)
+		body.add_to_group("capturing")
 		bodies.append(body)

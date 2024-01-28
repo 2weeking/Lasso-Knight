@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://wtb0tpyhgt5v"]
+
+[ext_resource type="Script" path="res://entities/lasso/verlet_rope.gd" id="1_l1poo"]
+
+[node name="VerletRope" type="Node2D"]
+script = ExtResource("1_l1poo")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -82.0
+offset_top = -59.0
+offset_right = 86.0
+offset_bottom = -32.0

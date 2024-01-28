@@ -6,11 +6,20 @@ extends CharacterBody2D
 
 @onready var player = get_parent().get_node("Knight")
 
+var desired_velocity = Vector2.ZERO
+
 func _physics_process(delta):
 	if is_instance_valid(player) and moving:
 		var direction = (player.position - position).normalized()
-		if is_in_group("captured"):
+		desired_velocity = direction * speed
+		if is_in_group("capturing"):
 			direction *= -1
-		velocity = direction * speed
+			velocity.x = desired_velocity.x - player.desired_velocity.x
+		else:
+			velocity = desired_velocity
 	
 	move_and_slide()
+
+
+func _on_hitbox_area_entered(area):
+	pass
