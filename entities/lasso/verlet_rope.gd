@@ -3,7 +3,6 @@ extends Node2D
 @onready var origin: CharacterBody2D
 @export var target: CharacterBody2D
 
-@export var range: float = 250
 @export var ropeLength: float = 30
 @export var constrain: float = 1	# distance between points
 @export var gravity: Vector2 = Vector2(0,9.8)
@@ -12,14 +11,12 @@ extends Node2D
 @export var endPin: bool = true
 
 @onready var line2D: = $Line2D
-@onready var progressBar = $ProgressBar
 
 var pos: PackedVector2Array
 var posPrev: PackedVector2Array
 var pointCount: int
 
 func _ready()->void:
-	progressBar.max_value = range
 	pointCount = get_pointCount(ropeLength)
 	resize_arrays()
 	init_position()
@@ -54,16 +51,8 @@ func _unhandled_input(event:InputEvent)->void:
 func _process(delta)->void:
 	# Lock rope and bodies to certain range of distance
 	if target and origin:
-		var dist = origin.position.distance_to(target.position)
-		progressBar.global_position = origin.global_position
-		progressBar.value = dist
-		if dist < range:
-			set_start(origin.position)
-			set_last(target.position)
-		else:
-			print("ROPE BROKE")
-			target.remove_from_group("capturing")
-			queue_free()
+		set_start(origin.position)
+		set_last(target.position)
 	update_points(delta)
 	update_constrain()
 	

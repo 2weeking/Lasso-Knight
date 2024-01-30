@@ -13,23 +13,25 @@ signal hp_changed(old_value: int, new_value: int)
 
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2.0
+@export var lasso_range: float = 250.0
 
-@onready var lasso = preload("res://entities/lasso/verlet_rope.tscn")
+@onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
+@onready var lasso_bar = $LassoBar
 @onready var hurtbox = $HurtBox
 
 @onready var animation_player = $AnimationPlayer
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 
+var capturing = {}
 var desired_velocity = Vector2.ZERO
-
-var bodies = []
 
 func die():
 	queue_free()
 
 func _ready():
 	hp = hp
+	lasso_bar.max_value = lasso_range
 
 func _physics_process(_delta):
 	# Movement
@@ -47,19 +49,29 @@ func _physics_process(_delta):
 	
 	velocity = desired_velocity
 	
-	for body in bodies:
-		velocity -= body.desired_velocity
+	for enemy in capturing:
+		# Pulling effect
+		velocity -= enemy.desired_velocity
+		# Lock rope and bodies to certain range of distance
+		var dist = position.distance_to(enemy.position)
+		lasso_bar.value = dist
+		# Break rope and reset enemy state
+		if dist > lasso_range:
+			lasso_bar.value = 0
+			enemy.remove_from_group("capturing")
+			# Queue free rope attached to enemy
+			capturing[enemy].queue_free()
+			capturing.erase(enemy)
 	
 	move_and_slide()
-
-
-var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
 
 func add_new_rope(body):
 	var rope = verlet_rope.instantiate()
 	rope.origin = self
 	rope.target = body
 	get_parent().add_child(rope)
+	capturing[body] = rope
+	body.add_to_group("capturing")
 
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("captured"):
@@ -68,5 +80,3 @@ func _on_hit_box_body_entered(body):
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		call_deferred("add_new_rope", body)
-		body.add_to_group("capturing")
-		bodies.append(body)

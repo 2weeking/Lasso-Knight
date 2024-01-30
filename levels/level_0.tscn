@@ -17,5 +17,5 @@ texture = SubResource("CanvasTexture_yebod")
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
 
 [node name="Enemy" parent="." instance=ExtResource("2_o46i8")]
-position = Vector2(130, 2)
+position = Vector2(278, -3)
 speed = 100

@@ -7,9 +7,3 @@ script = ExtResource("1_l1poo")
 
 [node name="Line2D" type="Line2D" parent="."]
 width = 2.0
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -82.0
-offset_top = -59.0
-offset_right = 86.0
-offset_bottom = -32.0
