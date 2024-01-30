@@ -1,7 +1,6 @@
 extends Node2D
 
-@onready var origin: CharacterBody2D
-@export var target: CharacterBody2D
+@export var target: Node2D
 
 @export var ropeLength: float = 30
 @export var constrain: float = 1	# distance between points
@@ -34,25 +33,9 @@ func init_position()->void:
 		posPrev[i] = position + Vector2(constrain *i, 0)
 	position = Vector2.ZERO
 
-"""
-func _unhandled_input(event:InputEvent)->void:
-	if event is InputEventMouseMotion:
-		if Input.is_action_pressed("click"):	#Move start point
-			set_start(get_global_mouse_position())
-		if Input.is_action_pressed("right_click"):	#Move start point
-			set_last(get_global_mouse_position())
-	elif event is InputEventMouseButton && event.is_pressed():
-		if event.button_index == 1:
-			set_start(get_global_mouse_position())
-		elif event.button_index == 2:
-			set_last(get_global_mouse_position())
-"""
-
 func _process(delta)->void:
-	# Lock rope and bodies to certain range of distance
-	if target and origin:
-		set_start(origin.position)
-		set_last(target.position)
+	#set_start(to_local(target.global_position))
+	set_last(to_local(target.global_position))
 	update_points(delta)
 	update_constrain()
 	

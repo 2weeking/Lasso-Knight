@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=17 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_bm21e"]
@@ -66,6 +66,12 @@ graph_offset = Vector2(-394, -7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
 
+[sub_resource type="Curve2D" id="Curve2D_v218c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
 size = Vector2(124, 38)
 
@@ -111,7 +117,16 @@ debug_color = Color(0.266667, 0.623529, 0.317647, 0.419608)
 collision_layer = 8
 collision_mask = 0
 
-[node name="VerletRope" parent="HurtBox" instance=ExtResource("4_45si7")]
+[node name="Path2D" type="Path2D" parent="HurtBox"]
+curve = SubResource("Curve2D_v218c")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="HurtBox/Path2D"]
+rotates = false
+
+[node name="Lasso" parent="HurtBox/Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("4_45si7")]
+target = NodePath("../../../..")
+ropeLength = 50.0
+gravity = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(89, 0)

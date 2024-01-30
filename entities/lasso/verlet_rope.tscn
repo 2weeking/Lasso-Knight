@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://entities/lasso/verlet_rope.gd" id="1_l1poo"]
 
-[node name="VerletRope" type="Node2D"]
+[node name="Rope" type="Node2D"]
 script = ExtResource("1_l1poo")
 
 [node name="Line2D" type="Line2D" parent="."]
