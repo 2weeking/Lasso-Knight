@@ -1,10 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnnq6e08lqpyo"]
+[gd_scene load_steps=6 format=3 uid="uid://dnnq6e08lqpyo"]
 
 [ext_resource type="Texture2D" uid="uid://byiwkxevc228r" path="res://Temporary Sprites/Characters/Free Chicken Sprites.png" id="1_4o7h1"]
 
+[sub_resource type="GDScript" id="GDScript_2ilfr"]
+script/source = "extends CharacterBody2D
+var alarmed = false
+@export var speed = 50
+@export var damage : int = 1
+@export var steering_force = 20
+@export var too_close_radius = 5
+@export var max_run_radius = 7
+@onready var player = get_parent().get_node(\"Knight\")
+@onready var too_close = get_node(\"too_close\")
+@onready var max_run = get_node(\"max_run\")
+
+func _on_ready():
+	too_close.scale.x = too_close_radius
+
+func _physics_process(delta):
+	!too_close.has_overlapping_bodies()
+	if is_instance_valid(player) and alarmed and !too_close.has_overlapping_bodies():
+		var desired_velocity = (player.position - position).normalized()*speed
+		var steering = (desired_velocity - velocity).normalized()*steering_force
+		velocity = velocity + steering
+	else:
+		if is_instance_valid(player) and alarmed and too_close.has_overlapping_bodies(): 
+			var desired_velocity = -(player.position - position).normalized()*speed
+			var steering = (desired_velocity - velocity).normalized()*steering_force
+			velocity = velocity + steering
+	move_and_collide(velocity * delta)
+	
+func _on_alarmed():
+	var direction = (player.position - position).normalized()
+	velocity = direction*speed
+	alarmed = true
+"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxj8i"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ue5nu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oi58g"]
+
 [node name="SeedShooter" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = SubResource("GDScript_2ilfr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_4o7h1")
@@ -13,3 +54,21 @@ vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wxj8i")
+
+[node name="too_close" type="Area2D" parent="."]
+scale = Vector2(40, 40)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="too_close"]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CircleShape2D_ue5nu")
+debug_color = Color(1, 0.00784314, 0.054902, 0.419608)
+
+[node name="max_run" type="Area2D" parent="."]
+scale = Vector2(70, 70)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="max_run"]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CircleShape2D_oi58g")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
