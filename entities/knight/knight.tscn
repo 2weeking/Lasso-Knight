@@ -6,6 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://wtb0tpyhgt5v" path="res://entities/lasso/verlet_rope.tscn" id="4_45si7"]
 [ext_resource type="PackedScene" uid="uid://dvlia5gva2tk" path="res://entities/knight/player_health_ui.tscn" id="4_68lu1"]
 
+[sub_resource type="Curve2D" id="Curve2D_v218c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
 size = Vector2(32, 32)
 
@@ -15,7 +23,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HurtBox:collision_mask")
+tracks/0/path = NodePath("Path2D/PathFollow2D/HurtBox:collision_mask")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -23,18 +31,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [4, 0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HurtBox/Sprite2D:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a50b0"]
@@ -66,20 +62,32 @@ graph_offset = Vector2(-394, -7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
 
-[sub_resource type="Curve2D" id="Curve2D_v218c"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 0)
-}
-point_count = 5
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
-size = Vector2(124, 38)
-
 [sub_resource type="CanvasTexture" id="CanvasTexture_3xjrk"]
 
 [node name="Knight" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_bwy00")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_v218c")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+rotation = -0.218669
+rotates = false
+
+[node name="Lasso" parent="Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("4_45si7")]
+z_index = 1
+target = NodePath("../../..")
+ropeLength = 50.0
+
+[node name="HurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
+rotation = 0.218669
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/HurtBox"]
+shape = SubResource("RectangleShape2D_an74c")
+debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.25, 0.25)
@@ -115,32 +123,6 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_nid7g")
 debug_color = Color(0.266667, 0.623529, 0.317647, 0.419608)
 
-[node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 0
-
-[node name="Path2D" type="Path2D" parent="HurtBox"]
-curve = SubResource("Curve2D_v218c")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="HurtBox/Path2D"]
-rotation = -0.218669
-rotates = false
-
-[node name="Lasso" parent="HurtBox/Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("4_45si7")]
-target = NodePath("../../../..")
-ropeLength = 40.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(89, 0)
-shape = SubResource("RectangleShape2D_an74c")
-debug_color = Color(1, 0, 0, 0.419608)
-
-[node name="Sprite2D" type="Sprite2D" parent="HurtBox"]
-visible = false
-position = Vector2(89, 0)
-scale = Vector2(0.96875, 0.296875)
-texture = ExtResource("2_bm21e")
-
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="PlayerHealthUI" parent="HUD" instance=ExtResource("4_68lu1")]
@@ -158,5 +140,5 @@ nine_patch_stretch = true
 texture_progress = SubResource("CanvasTexture_3xjrk")
 tint_progress = Color(0, 0, 0, 1)
 
+[connection signal="body_entered" from="Path2D/PathFollow2D/HurtBox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
-[connection signal="body_entered" from="HurtBox" to="." method="_on_hurtbox_body_entered"]
