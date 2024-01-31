@@ -1,19 +1,81 @@
-[gd_scene load_steps=28 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=29 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
-[ext_resource type="Texture2D" uid="uid://c58psj3oqm1cf" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle1.png" id="3_8jq85"]
+[ext_resource type="Texture2D" uid="uid://c8lpq53ikisag" path="res://assets/LassoKnightSprites/BEANKNIGHT.png" id="2_vql2c"]
 [ext_resource type="Script" path="res://entities/knight/Camera2D.gd" id="3_56ek5"]
-[ext_resource type="Texture2D" uid="uid://cqhuuc5q4hmfd" path="res://assets/PaulSprites/BeanKnight/BeanKnight.png" id="3_bdgyy"]
 [ext_resource type="PackedScene" uid="uid://wtb0tpyhgt5v" path="res://entities/lasso/verlet_rope.tscn" id="4_45si7"]
 [ext_resource type="PackedScene" uid="uid://dvlia5gva2tk" path="res://entities/knight/player_health_ui.tscn" id="4_68lu1"]
-[ext_resource type="Texture2D" uid="uid://mw4sk7e5qeo2" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle2.png" id="4_adkkr"]
-[ext_resource type="Texture2D" uid="uid://dhbiilvgocnal" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle3.png" id="5_uxpgy"]
-[ext_resource type="Texture2D" uid="uid://7kwxvxx6vwwj" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle4.png" id="6_xhr3m"]
-[ext_resource type="Texture2D" uid="uid://h26ci3w0m2a7" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle5.png" id="7_naxfm"]
-[ext_resource type="Texture2D" uid="uid://tfv3ca27l4by" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle6.png" id="8_r6l6f"]
-[ext_resource type="Texture2D" uid="uid://yh4fvdlo8sr8" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle7.png" id="9_4mivu"]
-[ext_resource type="Texture2D" uid="uid://c36g5s86lvfv0" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle8.png" id="10_7fh4t"]
-[ext_resource type="Texture2D" uid="uid://bgbqv6x0itepg" path="res://assets/PaulSprites/BeanKnight/Idle/BeanKnightIdle9.png" id="11_05o86"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4n6n"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy51c"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0ilj"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6oh8l"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv27g"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nabmr"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4821"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3tuaj"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c2s6"]
+atlas = ExtResource("2_vql2c")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y6ukc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4n6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jy51c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0ilj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6oh8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv27g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nabmr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4821")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3tuaj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c2s6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="Curve2D" id="Curve2D_v218c"]
 _data = {
@@ -26,42 +88,17 @@ point_count = 5
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
 size = Vector2(32, 32)
 
-[sub_resource type="Animation" id="Animation_iinx5"]
+[sub_resource type="Animation" id="Animation_a4f3l"]
 resource_name = "idle"
-length = 9.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 5.9, 7, 8, 9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("3_8jq85"), ExtResource("4_adkkr"), ExtResource("5_uxpgy"), ExtResource("6_xhr3m"), ExtResource("7_naxfm"), ExtResource("8_r6l6f"), ExtResource("9_4mivu"), ExtResource("10_7fh4t"), ExtResource("11_05o86"), ExtResource("3_bdgyy")]
-}
+length = 4.0
 
-[sub_resource type="Animation" id="Animation_a8osv"]
+[sub_resource type="Animation" id="Animation_wvwej"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_8jq85")]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a50b0"]
 _data = {
-"RESET": SubResource("Animation_a8osv"),
-"idle": SubResource("Animation_iinx5")
+"RESET": SubResource("Animation_wvwej"),
+"idle": SubResource("Animation_a4f3l")
 }
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_va5ow"]
@@ -94,6 +131,15 @@ size = Vector2(32, 32)
 collision_layer = 2
 script = ExtResource("1_bwy00")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_y6ukc")
+animation = &"idle"
+autoplay = "idle"
+frame = 5
+frame_progress = 0.136272
+speed_scale = 0.75
+
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_v218c")
 
@@ -115,10 +161,6 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_an74c")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_8jq85")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vcw2b")
 
@@ -126,7 +168,6 @@ shape = SubResource("RectangleShape2D_vcw2b")
 libraries = {
 "": SubResource("AnimationLibrary_a50b0")
 }
-speed_scale = 4.0
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 libraries = {

@@ -76,7 +76,7 @@ func _physics_process(delta):
 	if whipping:
 		lasso_pathfollow.progress_ratio += lasso_speed * delta
 		# Reset whipping and hurtbox
-		if lasso_pathfollow.progress_ratio >= 0.95:
+		if lasso_pathfollow.progress_ratio >= 0.96:
 			hurtbox.set_collision_mask_value(3, false)
 			whipping = false
 	
