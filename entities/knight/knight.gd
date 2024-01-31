@@ -14,7 +14,7 @@ signal hp_changed(old_value: int, new_value: int)
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2
 @export var lasso_range: float = 250.0
-@export var lasso_goldilocks: float = 0.25
+@export var lasso_goldilocks: float = 0.5
 
 @onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
 @onready var lasso_pathfollow = $HurtBox/Path2D/PathFollow2D
@@ -24,18 +24,34 @@ signal hp_changed(old_value: int, new_value: int)
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 
+var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
+var lasso_bar_bound_upper = (lasso_range/2)+(lasso_range*lasso_goldilocks/2)
+
 var ropes = []
 var desired_velocity = Vector2.ZERO
+var whipping = false
 
 func die():
 	queue_free()
 
 func _ready():
 	hp = hp
+	# Set up lasso bar
 	lasso_bar.visible = false
 	lasso_bar.max_value = lasso_range
-
-var whipping = false
+	
+	# Gradient dependent on lasso range
+	var gradient_texture = GradientTexture1D.new()
+	var gradient = Gradient.new()
+	
+	gradient.set_color(0, Color.CRIMSON) # bottom
+	gradient.set_color(1, Color.CRIMSON) # top
+	gradient.add_point(lasso_bar_bound_lower/lasso_range, Color.YELLOW) # q1
+	gradient.add_point(0.5, Color.GREEN) # middle
+	gradient.add_point(lasso_bar_bound_upper/lasso_range, Color.YELLOW) # q3
+	
+	gradient_texture.gradient = gradient
+	lasso_bar.texture_under = gradient_texture
 
 func _physics_process(delta):
 	# Movement
@@ -46,34 +62,40 @@ func _physics_process(delta):
 	
 	# Lasso
 	if Input.is_action_just_pressed("whip") and not whipping:
+		# Initiate whipping with hurtbox
 		hurtbox.look_at(get_global_mouse_position())
 		hurtbox.set_collision_mask_value(3, true)
 		lasso_pathfollow.progress_ratio = 0
 		whipping = true
 	
+	# Whipping state to latch on to enemies
 	if whipping:
 		lasso_pathfollow.progress_ratio += lasso_speed * delta
+		# Reset whipping and hurtbox
 		if lasso_pathfollow.progress_ratio >= 0.95:
 			hurtbox.set_collision_mask_value(3, false)
 			whipping = false
 	
+	# Desired_velocity to used to counteract movement during rope capturing
 	desired_velocity = input_direction * move_speed
 	
 	velocity = desired_velocity
 	
 	# Deal with ropes children to knight and captured enemies attached
 	for rope in ropes:
-		lasso_bar.visible = true
 		var enemy = rope.target
 		var timer = rope.capture_timer
 		
+		# Counteract own velocity with enemy velocity to stimulate rope tension
 		velocity -= enemy.desired_velocity
-		# Lock rope and bodies to certain range of distance
+		
 		var dist = position.distance_to(enemy.position)
-		#lasso_bar.value = dist
+		
+		# Adjust progress bar and convert dist to bar offset
+		lasso_bar.visible = true
 		lasso_bar.texture_progress_offset.x = -(dist/lasso_range*50)
-		# If in range 
-		if dist > (lasso_range/2)-(lasso_range*lasso_goldilocks/2) and dist < (lasso_range/2)+(lasso_range*lasso_goldilocks/2):
+		# If in range, resume capture timer
+		if dist > lasso_bar_bound_lower and dist < lasso_bar_bound_upper:
 			timer.paused = false
 		else:
 			timer.paused = true
@@ -86,7 +108,6 @@ func _physics_process(delta):
 			lasso_bar.visible = false
 		# If player is outside lasso range, break rope and reset enemy state
 		elif dist > lasso_range:
-			#lasso_bar.value = 0
 			enemy.remove_from_group("capturing")
 			# Queue free rope attached to enemy
 			rope.queue_free()
@@ -95,12 +116,14 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func add_new_rope(body):
+func add_rope(body: CharacterBody2D):
+	# Attach rope to enemy
 	var rope = verlet_rope.instantiate()
 	rope.target = body
 	add_child(rope)
 	ropes.append(rope)
 	
+	# Attach capturing timer to enemy
 	var timer = Timer.new()
 	rope.capture_timer = timer
 	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
@@ -108,19 +131,27 @@ func add_new_rope(body):
 	timer.one_shot = true
 	timer.autostart = true
 	rope.add_child(timer)
+	
 	body.add_to_group("capturing")
+
+func remove_rope(body: CharacterBody2D, kill: bool):
+	# First delete rope associated with body
+	for rope in ropes:
+		if body == rope.target:
+			rope.queue_free()
+			ropes.erase(rope)
+	
+	# Optionally delete body attached
+	if kill:
+		body.queue_free()
 
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
-			for rope in ropes:
-				if body == rope.target:
-					rope.queue_free()
-					ropes.erase(rope)
-			body.queue_free()
+			remove_rope(body, true)
 		else:
 			hp -= body.damage
 
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured"):
-		call_deferred("add_new_rope", body)
+		call_deferred("add_rope", body)

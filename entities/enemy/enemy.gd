@@ -8,7 +8,7 @@ extends CharacterBody2D
 
 var desired_velocity = Vector2.ZERO
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_instance_valid(player) and moving:
 		var direction = (player.position - position).normalized()
 		desired_velocity = direction * speed
@@ -24,5 +24,5 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-func _on_hitbox_area_entered(area):
+func _on_hitbox_area_entered(_area):
 	pass

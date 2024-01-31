@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=18 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="2_bm21e"]
@@ -74,13 +74,6 @@ point_count = 5
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
 size = Vector2(124, 38)
-
-[sub_resource type="Gradient" id="Gradient_qcba4"]
-offsets = PackedFloat32Array(0, 0.29021, 0.513986, 0.751748, 1)
-colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_u80f7"]
-gradient = SubResource("Gradient_qcba4")
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_3xjrk"]
 
@@ -162,7 +155,6 @@ offset_bottom = -22.0
 value = 4.0
 fill_mode = 1
 nine_patch_stretch = true
-texture_under = SubResource("GradientTexture1D_u80f7")
 texture_progress = SubResource("CanvasTexture_3xjrk")
 tint_progress = Color(0, 0, 0, 1)
 
