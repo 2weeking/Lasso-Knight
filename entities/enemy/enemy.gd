@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 50
+@export var speed_offset = 10
 @export var damage : int = 1
 @export var moving: bool = true
 
@@ -14,7 +15,7 @@ func _physics_process(_delta):
 		desired_velocity = direction * speed
 		if is_in_group("capturing"):
 			direction *= -1
-			velocity.x = desired_velocity.x - player.desired_velocity.x
+			velocity.x = (desired_velocity.x - player.desired_velocity.x) + speed_offset
 		else:
 			# Speed up towards player to simulate reel in effect
 			if is_in_group("captured"):
