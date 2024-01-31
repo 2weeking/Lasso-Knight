@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://wtb0tpyhgt5v"]
+[gd_scene load_steps=3 format=3 uid="uid://wtb0tpyhgt5v"]
 
 [ext_resource type="Script" path="res://entities/lasso/verlet_rope.gd" id="1_l1poo"]
+[ext_resource type="Texture2D" uid="uid://cu1g5p63v14nh" path="res://assets/rope/rope.png" id="2_36m5f"]
 
 [node name="Rope" type="Node2D"]
 script = ExtResource("1_l1poo")
 
 [node name="Line2D" type="Line2D" parent="."]
-width = 2.0
+texture = ExtResource("2_36m5f")
+texture_mode = 1

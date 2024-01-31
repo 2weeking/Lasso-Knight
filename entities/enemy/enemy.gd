@@ -16,6 +16,9 @@ func _physics_process(delta):
 			direction *= -1
 			velocity.x = desired_velocity.x - player.desired_velocity.x
 		else:
+			# Speed up towards player to simulate reel in effect
+			if is_in_group("captured"):
+				speed += 5
 			velocity = desired_velocity
 	
 	move_and_slide()

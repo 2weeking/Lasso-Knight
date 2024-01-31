@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var target: Node2D
+@export var capture_timer: Timer
 
 @export var ropeLength: float = 30
 @export var constrain: float = 1	# distance between points
@@ -59,7 +60,7 @@ func update_points(delta)->void:
 		if (i!=0 && i!=pointCount-1) || (i==0 && !startPin) || (i==pointCount-1 && !endPin):
 			var velocity = (pos[i] -posPrev[i]) * dampening
 			posPrev[i] = pos[i]
-			pos[i] += velocity + (gravity * delta)
+			pos[i] += velocity + ((gravity.rotated(-global_rotation)) * delta)
 
 func update_constrain()->void:
 	for i in range(pointCount):
