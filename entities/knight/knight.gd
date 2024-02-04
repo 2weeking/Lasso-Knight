@@ -11,29 +11,32 @@ signal hp_changed(old_value: int, new_value: int)
 		hp_changed.emit(hp, new_hp)
 		hp = new_hp
 
+# Player parameters
 @export var move_speed : float = 150.0
 @export var lasso_speed : float = 2
 @export var lasso_range: float = 250.0
-@export var lasso_goldilocks: float = 0.5
+@export var lasso_goldilocks: float = 0.5	# Green bar range percentage from 0.0 - 1.0
 
+# Sprite and animationms
+@onready var sprite = $AnimatedSprite2D
+@onready var animation_tree = $AnimationTree
+@onready var state_machine = animation_tree.get("parameters/playback")
+
+# Lasso related
 @onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
-#@onready var lasso_pathfollow = $HurtBox/Path2D/PathFollow2D
 @onready var lasso_bar = $LassoBar
-#@onready var hurtbox = $HurtBox
 
 @onready var lasso_path = $Path2D
 @onready var lasso_pathfollow = $Path2D/PathFollow2D
 @onready var hurtbox = $Path2D/PathFollow2D/HurtBox
 
-@onready var animation_tree = $AnimationTree
-@onready var state_machine = animation_tree.get("parameters/playback")
-
+# Lasso golidlocks range on lassobar
 var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
 var lasso_bar_bound_upper = (lasso_range/2)+(lasso_range*lasso_goldilocks/2)
 
 var ropes = []
-var desired_velocity = Vector2.ZERO
 var whipping = false
+var desired_velocity = Vector2.ZERO
 
 func die():
 	queue_free()
@@ -63,6 +66,12 @@ func _physics_process(delta):
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	)
+	
+	# Flip sprite depending on direction
+	if input_direction.x > 0:
+		sprite.flip_h = false
+	elif input_direction.x < 0:
+		sprite.flip_h = true
 	
 	# Lasso
 	if Input.is_action_just_pressed("whip") and not whipping:

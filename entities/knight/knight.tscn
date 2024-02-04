@@ -88,12 +88,12 @@ point_count = 5
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
 size = Vector2(32, 32)
 
+[sub_resource type="Animation" id="Animation_wvwej"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_a4f3l"]
 resource_name = "idle"
 length = 4.0
-
-[sub_resource type="Animation" id="Animation_wvwej"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a50b0"]
 _data = {
@@ -195,7 +195,8 @@ debug_color = Color(0.266667, 0.623529, 0.317647, 0.419608)
 
 [node name="PlayerHealthUI" parent="HUD" instance=ExtResource("4_68lu1")]
 offset = Vector2(10, 10)
-transform = Transform2D(0.1, 0, 0, 0.1, 10, 10)
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 10, 10)
 
 [node name="LassoBar" type="TextureProgressBar" parent="."]
 offset_left = -28.0

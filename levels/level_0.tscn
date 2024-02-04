@@ -36,5 +36,13 @@ layer_0/tile_data = PackedInt32Array(-851995, 0, 1, -786459, 0, 1, -720923, 0, 1
 [node name="Knight" parent="." instance=ExtResource("1_l1ejl")]
 
 [node name="Enemy" parent="." instance=ExtResource("2_o46i8")]
-position = Vector2(163, -53)
+position = Vector2(291, -69)
+speed = 100
+
+[node name="Enemy2" parent="." instance=ExtResource("2_o46i8")]
+position = Vector2(379, 12)
+speed = 100
+
+[node name="Enemy3" parent="." instance=ExtResource("2_o46i8")]
+position = Vector2(290, 119)
 speed = 100
