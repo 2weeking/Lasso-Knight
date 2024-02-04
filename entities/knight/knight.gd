@@ -25,10 +25,11 @@ signal hp_changed(old_value: int, new_value: int)
 # Lasso related
 @onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
 @onready var lasso_bar = $LassoBar
+@onready var lasso_head = $Path2D/PathFollow2D/LassoHead
 
 @onready var lasso_path = $Path2D
 @onready var lasso_pathfollow = $Path2D/PathFollow2D
-@onready var hurtbox = $Path2D/PathFollow2D/HurtBox
+@onready var hurtbox = $Path2D/PathFollow2D/LassoHurtBox
 
 # Lasso golidlocks range on lassobar
 var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
@@ -42,12 +43,14 @@ func die():
 	queue_free()
 
 func _ready():
+	# Setup HP settergetter
 	hp = hp
-	# Set up lasso bar
+	
+	# Setup lasso bar
 	lasso_bar.visible = false
 	lasso_bar.max_value = lasso_range
 	
-	# Gradient dependent on lasso range and goldilocks
+	# LassoBar Gradient dependent on lasso range and goldilocks
 	var gradient_texture = GradientTexture1D.new()
 	var gradient = Gradient.new()
 	
@@ -66,10 +69,11 @@ func _process(delta):
 		lasso_pathfollow.progress_ratio += lasso_speed * delta
 		# Reset whipping and hurtbox
 		if lasso_pathfollow.progress_ratio >= 0.98:
+			lasso_head.visible = false
 			hurtbox.set_collision_mask_value(3, false)
 			whipping = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Movement
 	var input_direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
@@ -85,6 +89,7 @@ func _physics_process(delta):
 	# Lasso
 	if Input.is_action_just_pressed("whip") and not whipping:
 		# Initiate whipping with hurtbox
+		lasso_head.visible = true
 		lasso_path.look_at(get_global_mouse_position())
 		hurtbox.set_collision_mask_value(3, true)
 		lasso_pathfollow.progress_ratio = 0

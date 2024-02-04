@@ -4,14 +4,17 @@ extends CharacterBody2D
 @export var speed_offset = 10
 @export var damage : int = 1
 @export var moving: bool = true
+@export var knockback_str: float = 100
 
 @onready var player = get_parent().get_node("Knight")
 
 var desired_velocity = Vector2.ZERO
+var knockback_vector = Vector2.ZERO
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if is_instance_valid(player) and moving:
 		var direction = (player.position - position).normalized()
+		knockback_vector = direction
 		desired_velocity = direction * speed
 		if is_in_group("capturing"):
 			direction *= -1
@@ -25,5 +28,5 @@ func _physics_process(_delta):
 	move_and_slide()
 
 
-func _on_hitbox_area_entered(_area):
+func _on_hitbox_area_entered(area):
 	pass
