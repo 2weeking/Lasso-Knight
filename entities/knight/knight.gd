@@ -47,7 +47,7 @@ func _ready():
 	lasso_bar.visible = false
 	lasso_bar.max_value = lasso_range
 	
-	# Gradient dependent on lasso range
+	# Gradient dependent on lasso range and goldilocks
 	var gradient_texture = GradientTexture1D.new()
 	var gradient = Gradient.new()
 	
@@ -163,6 +163,8 @@ func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
 			remove_rope(body, true)
+		elif body.is_in_group("capturing"):
+			pass
 		else:
 			hp -= body.damage
 

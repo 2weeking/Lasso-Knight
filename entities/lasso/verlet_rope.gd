@@ -36,8 +36,9 @@ func init_position()->void:
 
 func _process(delta)->void:
 	#set_start(to_local(target.global_position))
-	if target.name == "Knight":
-		set_last(to_local(target.global_position + Vector2(-5, 10)))
+	if target is Path2D:
+		set_last(to_local(target.get_curve().get_point_position(0) + target.global_position))
+		#set_last(to_local(target.global_position + Vector2(-5, 10)))
 	else:
 		set_last(to_local(target.global_position))
 	update_points(delta)
