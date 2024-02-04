@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpbimnpalm6kr"]
+
+[ext_resource type="PackedScene" uid="uid://wtb0tpyhgt5v" path="res://entities/lasso/verlet_rope.tscn" id="1_7dtbj"]
+
+[sub_resource type="Curve2D" id="Curve2D_ixi0x"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.00262, -10.2708, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enaof"]
+
+[node name="Test" type="Node2D"]
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(317, 377)
+scale = Vector2(2, 2)
+curve = SubResource("Curve2D_ixi0x")
+metadata/_edit_group_ = true
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+rotates = false
+
+[node name="Lasso" parent="Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("1_7dtbj")]
+z_index = 1
+target = NodePath("../../..")
+
+[node name="HurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
+rotation = 0.218669
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/HurtBox"]
+shape = SubResource("RectangleShape2D_enaof")
+debug_color = Color(1, 0, 0, 0.419608)

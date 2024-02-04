@@ -79,7 +79,7 @@ animations = [{
 
 [sub_resource type="Curve2D" id="Curve2D_v218c"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, 0, 10)
 }
 point_count = 5
 
@@ -150,7 +150,6 @@ rotates = false
 [node name="Lasso" parent="Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("4_45si7")]
 z_index = 1
 target = NodePath("../../..")
-ropeLength = 50.0
 
 [node name="HurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
 rotation = 0.218669

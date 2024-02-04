@@ -30,18 +30,18 @@ func resize_arrays():
 
 func init_position()->void:
 	for i in range(pointCount):
-		pos[i] = position + Vector2(constrain *i, 0)
-		posPrev[i] = position + Vector2(constrain *i, 0)
-	position = Vector2.ZERO
+		pos[i] = global_position + Vector2(constrain *i, 0)
+		posPrev[i] = global_position + Vector2(constrain *i, 0)
+	global_position = Vector2.ZERO
 
 func _process(delta)->void:
 	#set_start(to_local(target.global_position))
-	set_last(to_local(target.global_position))
+	if target.name == "Knight":
+		set_last(to_local(target.global_position + Vector2(-5, 10)))
+	else:
+		set_last(to_local(target.global_position))
 	update_points(delta)
 	update_constrain()
-	
-	#update_constrain()	#Repeat to get tighter rope
-	#update_constrain()
 	
 	# Send positions to Line2D for drawing
 	line2D.points = pos

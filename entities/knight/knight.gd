@@ -60,6 +60,15 @@ func _ready():
 	gradient_texture.gradient = gradient
 	lasso_bar.texture_under = gradient_texture
 
+func _process(delta):
+	# Whipping state to latch on to enemies
+	if whipping:
+		lasso_pathfollow.progress_ratio += lasso_speed * delta
+		# Reset whipping and hurtbox
+		if lasso_pathfollow.progress_ratio >= 0.98:
+			hurtbox.set_collision_mask_value(3, false)
+			whipping = false
+
 func _physics_process(delta):
 	# Movement
 	var input_direction = Vector2(
@@ -80,14 +89,6 @@ func _physics_process(delta):
 		hurtbox.set_collision_mask_value(3, true)
 		lasso_pathfollow.progress_ratio = 0
 		whipping = true
-	
-	# Whipping state to latch on to enemies
-	if whipping:
-		lasso_pathfollow.progress_ratio += lasso_speed * delta
-		# Reset whipping and hurtbox
-		if lasso_pathfollow.progress_ratio >= 0.96:
-			hurtbox.set_collision_mask_value(3, false)
-			whipping = false
 	
 	# Desired_velocity to used to counteract movement during rope capturing
 	desired_velocity = input_direction * move_speed
