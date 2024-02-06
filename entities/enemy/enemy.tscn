@@ -1,7 +1,29 @@
-[gd_scene load_steps=6 format=3 uid="uid://kb5gbb0qudm3"]
+[gd_scene load_steps=9 format=3 uid="uid://kb5gbb0qudm3"]
 
-[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://icon.svg" id="1_2pbxe"]
 [ext_resource type="Script" path="res://entities/enemy/enemy.gd" id="1_qag8c"]
+[ext_resource type="Texture2D" uid="uid://thit3b44r1ab" path="res://assets/LassoKnightSprites/COWS.png" id="2_hg0u7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvi7w"]
+atlas = ExtResource("2_hg0u7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d803h"]
+atlas = ExtResource("2_hg0u7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ra71s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvi7w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d803h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sdnq0"]
 size = Vector2(32, 32)
@@ -15,10 +37,13 @@ size = Vector2(38, 37)
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 script = ExtResource("1_qag8c")
+speed_offset = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_2pbxe")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_ra71s")
+autoplay = "default"
+frame_progress = 0.886095
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sdnq0")

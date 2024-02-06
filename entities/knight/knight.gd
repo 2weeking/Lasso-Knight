@@ -104,13 +104,14 @@ func _physics_process(_delta):
 	
 	# Deal with ropes children to knight and captured enemies attached
 	for rope in ropes:
-		var enemy = rope.target
-		var timer = rope.capture_timer
-		
-		# Counteract own velocity with enemy velocity to stimulate rope tension
-		velocity -= enemy.desired_velocity
+		var enemy = rope.target as CharacterBody2D
+		var timer = rope.capture_timer as Timer
 		
 		var dist = position.distance_to(enemy.position)
+		
+		# Counteract own velocity with enemy velocity to stimulate rope tensiond
+		if enemy.is_in_group("capturing"):
+			velocity += enemy.desired_velocity
 		
 		# Adjust progress bar and convert dist to bar offset
 		lasso_bar.visible = true
@@ -148,7 +149,7 @@ func add_rope(body: CharacterBody2D):
 	var timer = Timer.new()
 	rope.capture_timer = timer
 	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
-	timer.wait_time = 3
+	timer.wait_time = body.capture_time
 	timer.one_shot = true
 	timer.autostart = true
 	rope.add_child(timer)
