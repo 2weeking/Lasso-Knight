@@ -4,43 +4,77 @@
 
 [sub_resource type="GDScript" id="GDScript_2ilfr"]
 script/source = "extends CharacterBody2D
-var alarmed = false
-@export var speed = 50
+
+
+
+
+@export var speed = 100
 @export var damage : int = 1
-@export var steering_force = 20
-@export var too_close_radius = 5
-@export var max_run_radius = 7
+@export var steering_force = 20 #used to make turning more smooth and flowing
 @onready var player = get_parent().get_node(\"Knight\")
-@onready var too_close = get_node(\"too_close\")
-@onready var max_run = get_node(\"max_run\")
+
+
+var alarmed = false #enemy has state of rest
+var rundirection
+@export var max_distance = 50
+@export var min_distance = 30
+@onready var max_distance_area = get_node(\"max_distance_area\")
+@onready var min_distance_area = get_node(\"min_distance_area\")
+@onready var max_movement_clock = get_node(\"max_movement_clock\")
+@onready var min_movement_clock = get_node(\"min_movement_clock\")
+@onready var rng = RandomNumberGenerator.new()
 
 func _on_ready():
-	too_close.scale.x = too_close_radius
+	max_distance_area.scale.x = max_distance
+	min_distance_area.scale.x = min_distance
 
 func _physics_process(delta):
-	!too_close.has_overlapping_bodies()
-	if is_instance_valid(player) and alarmed and !too_close.has_overlapping_bodies():
-		var desired_velocity = (player.position - position).normalized()*speed
-		var steering = (desired_velocity - velocity).normalized()*steering_force
-		velocity = velocity + steering
-	else:
-		if is_instance_valid(player) and alarmed and too_close.has_overlapping_bodies(): 
-			var desired_velocity = -(player.position - position).normalized()*speed
-			var steering = (desired_velocity - velocity).normalized()*steering_force
-			velocity = velocity + steering
-	move_and_collide(velocity * delta)
-	
+	if is_instance_valid(player) and alarmed:
+		var distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
+		if(distance_to_player<min_distance):
+			var direction = (player.position-position).normalized()
+			min_movement_clock.start(rng.randf_range(0.1,0.4))
+			while(!min_movement_clock.is_stopped()):
+				velocity = direction*speed
+		if(distance_to_player>max_distance):
+			var direction = -(player.position-position).normalized()
+			max_movement_clock.start(rng.randf_range(0.1,0.4))
+			while(!max_movement_clock.is_stopped()):
+				velocity = direction*speed
+			
+			
+	move_and_slide()
+
+
 func _on_alarmed():
-	var direction = (player.position - position).normalized()
-	velocity = direction*speed
 	alarmed = true
+	
+
+func _run_away():
+	var direction = (player.position-position).normalized()
+	min_movement_clock.start(rng.randf_range(0.1,0.4))
+	while(!min_movement_clock.is_stopped()):
+		velocity = direction*speed
+
+func _run_towards():
+	var direction = -(player.position-position).normalized()
+	max_movement_clock.start(rng.randf_range(0.1,0.4))
+	while(!max_movement_clock.is_stopped()):
+		velocity = direction*speed
+
+func _on_max_movement_clock_timeout():
+	pass # Replace with function body.
+
+
+func _on_min_movement_clock_timeout():
+	pass # Replace with function body.
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxj8i"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ue5nu"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_20ukd"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_oi58g"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_oxd13"]
 
 [node name="SeedShooter" type="CharacterBody2D"]
 collision_layer = 4
@@ -55,20 +89,27 @@ vframes = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wxj8i")
 
-[node name="too_close" type="Area2D" parent="."]
-scale = Vector2(40, 40)
-collision_layer = 0
-collision_mask = 2
+[node name="max_distance_area" type="Area2D" parent="."]
+scale = Vector2(50, 50)
+collision_layer = 4
+collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="too_close"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="max_distance_area"]
 scale = Vector2(0.1, 0.1)
-shape = SubResource("CircleShape2D_ue5nu")
-debug_color = Color(1, 0.00784314, 0.054902, 0.419608)
+shape = SubResource("CircleShape2D_20ukd")
 
-[node name="max_run" type="Area2D" parent="."]
-scale = Vector2(70, 70)
+[node name="min_distance_area" type="Area2D" parent="."]
+scale = Vector2(30, 30)
+collision_layer = 4
+collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="max_run"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="min_distance_area"]
 scale = Vector2(0.1, 0.1)
-shape = SubResource("CircleShape2D_oi58g")
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
+shape = SubResource("CircleShape2D_oxd13")
+
+[node name="max_movement_clock" type="Timer" parent="."]
+
+[node name="min_movement_clock" type="Timer" parent="."]
+
+[connection signal="timeout" from="max_movement_clock" to="." method="_on_max_movement_clock_timeout"]
+[connection signal="timeout" from="min_movement_clock" to="." method="_on_min_movement_clock_timeout"]

@@ -14,7 +14,7 @@ position = Vector2(105, 21)
 position = Vector2(293, 96)
 
 [node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
-position = Vector2(346, 2)
+position = Vector2(316, 2)
 
 [node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("2_o46i8")]
 position = Vector2(51, 148)
