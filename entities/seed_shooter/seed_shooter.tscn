@@ -5,28 +5,19 @@
 [sub_resource type="GDScript" id="GDScript_2ilfr"]
 script/source = "extends CharacterBody2D
 
-
-
-
 @export var speed = 100
 @export var damage : int = 1
-@export var steering_force = 20 #used to make turning more smooth and flowing
-@onready var player = get_parent().get_node(\"Knight\")
-
-
-var alarmed = false #enemy has state of rest
-var rundirection
 @export var max_distance = 50
 @export var min_distance = 30
-@onready var max_distance_area = get_node(\"max_distance_area\")
-@onready var min_distance_area = get_node(\"min_distance_area\")
+
+var alarmed = false
+
 @onready var max_movement_clock = get_node(\"max_movement_clock\")
 @onready var min_movement_clock = get_node(\"min_movement_clock\")
+
 @onready var rng = RandomNumberGenerator.new()
 
-func _on_ready():
-	max_distance_area.scale.x = max_distance
-	min_distance_area.scale.x = min_distance
+@onready var player = get_parent().get_node(\"Knight\")
 
 func _physics_process(delta):
 	if is_instance_valid(player) and alarmed:
@@ -41,33 +32,9 @@ func _physics_process(delta):
 			max_movement_clock.start(rng.randf_range(0.1,0.4))
 			while(!max_movement_clock.is_stopped()):
 				velocity = direction*speed
-			
-			
-	move_and_slide()
-
-
+				
 func _on_alarmed():
 	alarmed = true
-	
-
-func _run_away():
-	var direction = (player.position-position).normalized()
-	min_movement_clock.start(rng.randf_range(0.1,0.4))
-	while(!min_movement_clock.is_stopped()):
-		velocity = direction*speed
-
-func _run_towards():
-	var direction = -(player.position-position).normalized()
-	max_movement_clock.start(rng.randf_range(0.1,0.4))
-	while(!max_movement_clock.is_stopped()):
-		velocity = direction*speed
-
-func _on_max_movement_clock_timeout():
-	pass # Replace with function body.
-
-
-func _on_min_movement_clock_timeout():
-	pass # Replace with function body.
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxj8i"]
