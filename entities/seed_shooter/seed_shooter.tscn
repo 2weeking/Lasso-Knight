@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnnq6e08lqpyo"]
+[gd_scene load_steps=4 format=3 uid="uid://dnnq6e08lqpyo"]
 
 [ext_resource type="Texture2D" uid="uid://byiwkxevc228r" path="res://Temporary Sprites/Characters/Free Chicken Sprites.png" id="1_4o7h1"]
 
@@ -7,41 +7,71 @@ script/source = "extends CharacterBody2D
 
 @export var speed = 100
 @export var damage : int = 1
-@export var max_distance = 50
-@export var min_distance = 30
+@export var max_distance = 300
+@export var min_distance = 200
 
 var alarmed = false
 
 @onready var max_movement_clock = get_node(\"max_movement_clock\")
 @onready var min_movement_clock = get_node(\"min_movement_clock\")
 
+@onready var seed_scene = preload(\"res://entities/seed_shooter/seed/seed.tscn\")
+@onready var seed_clock = get_node(\"seed_clock\")
+var can_shoot = true
+
 @onready var rng = RandomNumberGenerator.new()
 
 @onready var player = get_parent().get_node(\"Knight\")
 
 func _physics_process(delta):
+	
 	if is_instance_valid(player) and alarmed:
 		var distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
+		print(sqrt(global_position.distance_squared_to(player.global_position)))
 		if(distance_to_player<min_distance):
-			var direction = (player.position-position).normalized()
-			min_movement_clock.start(rng.randf_range(0.1,0.4))
-			while(!min_movement_clock.is_stopped()):
-				velocity = direction*speed
-		if(distance_to_player>max_distance):
-			var direction = -(player.position-position).normalized()
-			max_movement_clock.start(rng.randf_range(0.1,0.4))
-			while(!max_movement_clock.is_stopped()):
-				velocity = direction*speed
-				
+			start_move_away()
+		else:	if(distance_to_player>max_distance):
+			velocity = (player.position-position).normalized()*speed
+		
+		move_and_slide()
+		if(can_shoot):
+			var seed = seed_scene.instantiate()
+			get_parent().add_child(seed)
+			seed.global_position = global_position
+			seed.velocity = (player.position-position).normalized()*seed.speed
+			can_shoot = false
+			seed_clock.start(3)
+		
+			
+		
+
 func _on_alarmed():
 	alarmed = true
+
+func start_move_toward():
+	if(min_movement_clock.is_stopped()):
+		velocity = (player.position-position).normalized()*speed
+		max_movement_clock.start(rng.randf_range(0.1,0.25))
+
+func start_move_away():
+	if(max_movement_clock.is_stopped()):
+		velocity = (position-player.position).normalized()*speed
+		min_movement_clock.start(rng.randf_range(0.1,0.25))
+
+
+func _on_max_movement_clock_timeout():
+	velocity = Vector2.ZERO
+
+
+func _on_min_movement_clock_timeout():
+	velocity = Vector2.ZERO
+
+
+func _on_seed_clock_timeout():
+	can_shoot = true
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxj8i"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_20ukd"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_oxd13"]
 
 [node name="SeedShooter" type="CharacterBody2D"]
 collision_layer = 4
@@ -56,27 +86,12 @@ vframes = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wxj8i")
 
-[node name="max_distance_area" type="Area2D" parent="."]
-scale = Vector2(50, 50)
-collision_layer = 4
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="max_distance_area"]
-scale = Vector2(0.1, 0.1)
-shape = SubResource("CircleShape2D_20ukd")
-
-[node name="min_distance_area" type="Area2D" parent="."]
-scale = Vector2(30, 30)
-collision_layer = 4
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="min_distance_area"]
-scale = Vector2(0.1, 0.1)
-shape = SubResource("CircleShape2D_oxd13")
-
 [node name="max_movement_clock" type="Timer" parent="."]
 
 [node name="min_movement_clock" type="Timer" parent="."]
 
+[node name="seed_clock" type="Timer" parent="."]
+
 [connection signal="timeout" from="max_movement_clock" to="." method="_on_max_movement_clock_timeout"]
 [connection signal="timeout" from="min_movement_clock" to="." method="_on_min_movement_clock_timeout"]
+[connection signal="timeout" from="seed_clock" to="." method="_on_seed_clock_timeout"]

@@ -48,6 +48,6 @@ func reel_in(body):
 	captured_enemies[body] = rope
 
 func _on_body_entered(body):
-	if body.is_in_group("enemies") and not body.is_in_group("captured"):
+	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		body.add_to_group("captured")
 		reel_in(body)

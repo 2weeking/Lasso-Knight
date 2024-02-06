@@ -1,19 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cc8l4yi1q808v"]
+[gd_scene load_steps=4 format=3 uid="uid://dfb0m6cu6eq6e"]
 
 [ext_resource type="Script" path="res://entities/seed_shooter/seed/seed.gd" id="1_llddj"]
 [ext_resource type="Texture2D" uid="uid://cv6u63x6fupep" path="res://Temporary Sprites/Characters/Egg_And_Nest.png" id="2_xdfe5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1h2gs"]
-radius = 3.0
-height = 8.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_q32lk"]
+radius = 5.0
 
-[node name="Area2D" type="Area2D"]
+[node name="Seed" type="CharacterBody2D"]
 script = ExtResource("1_llddj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_1h2gs")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -2)
 texture = ExtResource("2_xdfe5")
 hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_q32lk")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

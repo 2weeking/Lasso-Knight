@@ -1,15 +1,18 @@
-extends Area2D
+extends CharacterBody2D
 
-@onready var player = get_parent().get_parent().get_node("knight")
-@onready var father_shooter = get_parent().get_parent().get_node("SeedShooter")
-var speed = 50
-var direction
-# Called when the node enters the scene tree for the first time.
+@export var speed = 300
+@export var damage = 1
+@onready var player = get_parent().get_node("Knight")
+@onready var shooter = get_parent()
+
 func _ready():
-	var direction = (player.position - father_shooter.position).normalized()
+	velocity = (player.position-shooter.position).normalized()*speed
+	add_to_group("enemy")
 	
+func _physics_process(delta):
+	move_and_slide()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	translate(direction * speed * delta)
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
