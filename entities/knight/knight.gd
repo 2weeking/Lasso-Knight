@@ -18,7 +18,7 @@ signal hp_changed(old_value: int, new_value: int)
 @export var lasso_goldilocks: float = 0.5	# Green bar range percentage from 0.0 - 1.0
 
 # Sprite and animationms
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite = $Sprite2D
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 
@@ -80,6 +80,12 @@ func _physics_process(_delta):
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	)
+	
+	# Animation and sprite related stuff
+	if input_direction != Vector2.ZERO:
+		state_machine.travel("walk")
+	else:
+		state_machine.travel("idle")
 	
 	# Flip sprite depending on direction
 	if input_direction.x > 0:
