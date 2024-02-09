@@ -36,5 +36,7 @@ func _physics_process(_delta):
 
 
 func _on_hitbox_area_entered(area):
-	if area.name == "LassoHurtBox":
+	if area.name == "LassoHurtbox":
 		counter_direction = direction * -1
+	if area.name == "Hitbox" and not is_in_group("captured"):
+		area.get_parent().hp -= damage

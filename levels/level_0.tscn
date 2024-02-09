@@ -43,3 +43,15 @@ position = Vector2(-167, 18)
 speed = 100
 speed_offset = 50
 capture_time = 5
+
+[node name="Enemy2" parent="." instance=ExtResource("2_o46i8")]
+position = Vector2(86, 191)
+speed = 100
+speed_offset = 50
+capture_time = 5
+
+[node name="Enemy3" parent="." instance=ExtResource("2_o46i8")]
+position = Vector2(122, -54)
+speed = 100
+speed_offset = 50
+capture_time = 5

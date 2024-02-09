@@ -8,6 +8,8 @@ signal hp_changed(old_value: int, new_value: int)
 	set(new_hp):
 		if new_hp <= 0:
 			die()
+		elif new_hp < hp:
+			hurt_animation_player.play("hurt")
 		hp_changed.emit(hp, new_hp)
 		hp = new_hp
 
@@ -21,6 +23,7 @@ signal hp_changed(old_value: int, new_value: int)
 @onready var sprite = $Sprite2D
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
+@onready var hurt_animation_player = $HurtAnimationPlayer
 
 # Lasso related
 @onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
@@ -59,7 +62,7 @@ func _ready():
 	gradient_texture.gradient = gradient
 	lasso_bar.texture_under = gradient_texture
 
-func _process(delta):
+func _process(_delta):
 	# Movement
 	input_direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
@@ -158,10 +161,6 @@ func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
 			remove_rope(body, true)
-		elif body.is_in_group("capturing"):
-			pass
-		else:
-			hp -= body.damage
 
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured"):
