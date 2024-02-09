@@ -34,7 +34,7 @@ func init_position()->void:
 		posPrev[i] = global_position + Vector2(constrain *i, 0)
 	global_position = Vector2.ZERO
 
-func _process(delta)->void:
+func _physics_process(delta)->void:
 	#set_start(to_local(target.global_position))
 	if target is Path2D:
 		set_last(to_local(target.get_curve().get_point_position(0) + target.global_position))

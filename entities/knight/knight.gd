@@ -34,6 +34,7 @@ var lasso_bar_bound_upper = (lasso_range/2)+(lasso_range*lasso_goldilocks/2)
 var ropes = []
 var whipping = false
 var desired_velocity = Vector2.ZERO
+var input_direction = Vector2.ZERO
 
 func die():
 	queue_free()
@@ -58,13 +59,14 @@ func _ready():
 	gradient_texture.gradient = gradient
 	lasso_bar.texture_under = gradient_texture
 
-func _physics_process(_delta):
+func _process(delta):
 	# Movement
-	var input_direction = Vector2(
+	input_direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	)
-	
+
+func _physics_process(_delta):
 	# Animation and sprite related stuff
 	if input_direction != Vector2.ZERO:
 		state_machine.travel("walk")
