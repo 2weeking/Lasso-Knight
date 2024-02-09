@@ -23,14 +23,9 @@ signal hp_changed(old_value: int, new_value: int)
 @onready var state_machine = animation_tree.get("parameters/playback")
 
 # Lasso related
-@onready var lasso = $Path2D/PathFollow2D/Lasso
 @onready var verlet_rope = preload("res://entities/lasso/verlet_rope.tscn")
 @onready var lasso_bar = $LassoBar
-@onready var lasso_head = $Path2D/PathFollow2D/LassoHead
-
 @onready var lasso_path = $Path2D
-@onready var lasso_pathfollow = $Path2D/PathFollow2D
-@onready var hurtbox = $Path2D/PathFollow2D/LassoHurtBox
 
 # Lasso golidlocks range on lassobar
 var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
@@ -63,17 +58,6 @@ func _ready():
 	gradient_texture.gradient = gradient
 	lasso_bar.texture_under = gradient_texture
 
-func _process(delta):
-	# Whipping state to latch on to enemies
-	if whipping:
-		lasso_pathfollow.progress_ratio += lasso_speed * delta
-		# Reset whipping and hurtbox
-		if lasso_pathfollow.progress_ratio >= 0.9:
-			lasso.visible = false
-			lasso_head.visible = false
-			hurtbox.set_collision_mask_value(3, false)
-			whipping = false
-
 func _physics_process(_delta):
 	# Movement
 	var input_direction = Vector2(
@@ -95,13 +79,8 @@ func _physics_process(_delta):
 	
 	# Lasso
 	if Input.is_action_just_pressed("whip") and not whipping:
-		# Initiate whipping with hurtbox
-		lasso.visible = true
-		lasso_head.visible = true
 		lasso_path.look_at(get_global_mouse_position())
-		hurtbox.set_collision_mask_value(3, true)
-		lasso_pathfollow.progress_ratio = 0
-		whipping = true
+		state_machine.travel("whip")
 	
 	# Desired_velocity to used to counteract movement during rope capturing
 	desired_velocity = input_direction * move_speed

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=27 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Texture2D" uid="uid://c8lpq53ikisag" path="res://assets/LassoKnightSprites/BEANKNIGHT.png" id="2_vql2c"]
@@ -7,36 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dvlia5gva2tk" path="res://entities/knight/player_health_ui.tscn" id="4_68lu1"]
 [ext_resource type="Texture2D" uid="uid://du1c6mmkrb8uc" path="res://assets/rope/lasso_head.png" id="4_ok8xe"]
 
-[sub_resource type="Curve2D" id="Curve2D_v218c"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -5, 10, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, -5, 7)
-}
-point_count = 5
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
-size = Vector2(25, 25)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
-size = Vector2(32, 32)
-
 [sub_resource type="Animation" id="Animation_otww2"]
 resource_name = "idle"
 loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_lv1gh"]
-length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -68,11 +41,51 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 
+[sub_resource type="Animation" id="Animation_8oo1r"]
+resource_name = "whip"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Path2D/PathFollow2D/LassoHurtBox:collision_mask")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Path2D/PathFollow2D:progress_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Path2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a50b0"]
 _data = {
-"RESET": SubResource("Animation_lv1gh"),
 "idle": SubResource("Animation_otww2"),
-"walk": SubResource("Animation_oj33q")
+"walk": SubResource("Animation_oj33q"),
+"whip": SubResource("Animation_8oo1r")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bmdyj"]
@@ -81,6 +94,9 @@ animation = &"idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6xr85"]
 animation = &"walk"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6h35c"]
+animation = &"whip"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k2ac6"]
 advance_mode = 2
 
@@ -88,13 +104,37 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_erak6"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jn8o8"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_whoyy"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7eetj"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iuyh7"]
+switch_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ljlde"]
 states/idle/node = SubResource("AnimationNodeAnimation_bmdyj")
 states/idle/position = Vector2(403, 100)
 states/walk/node = SubResource("AnimationNodeAnimation_6xr85")
 states/walk/position = Vector2(613, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_k2ac6"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_quseh"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_erak6")]
+states/whip/node = SubResource("AnimationNodeAnimation_6h35c")
+states/whip/position = Vector2(502, 217)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_k2ac6"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_quseh"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_erak6"), "walk", "whip", SubResource("AnimationNodeStateMachineTransition_jn8o8"), "whip", "walk", SubResource("AnimationNodeStateMachineTransition_whoyy"), "idle", "whip", SubResource("AnimationNodeStateMachineTransition_7eetj"), "whip", "idle", SubResource("AnimationNodeStateMachineTransition_iuyh7")]
 graph_offset = Vector2(-169, 25)
+
+[sub_resource type="Curve2D" id="Curve2D_v218c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -5, 10, -69.2504, 0.198425, 69.2504, -0.198425, 81, -17, 0, 0, 0, 0, 151, 0, 72.9156, 0.834275, -72.9156, -0.834275, 78, 18, 0, 0, 0, 0, -5, 7)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
+size = Vector2(25, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
+size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
@@ -105,12 +145,25 @@ size = Vector2(32, 32)
 collision_layer = 2
 script = ExtResource("1_bwy00")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a50b0")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a50b0")
+}
+tree_root = SubResource("AnimationNodeStateMachine_ljlde")
+anim_player = NodePath("../AnimationPlayer")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_vql2c")
 hframes = 9
 
 [node name="Path2D" type="Path2D" parent="."]
+visible = false
 curve = SubResource("Curve2D_v218c")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
@@ -118,13 +171,11 @@ position = Vector2(-5, 10)
 rotates = false
 
 [node name="LassoHead" type="Sprite2D" parent="Path2D/PathFollow2D"]
-visible = false
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("4_ok8xe")
 offset = Vector2(0, -5)
 
 [node name="Lasso" parent="Path2D/PathFollow2D" node_paths=PackedStringArray("target") instance=ExtResource("4_45si7")]
-visible = false
 z_index = 1
 target = NodePath("../..")
 
@@ -138,18 +189,6 @@ debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vcw2b")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_a50b0")
-}
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_a50b0")
-}
-tree_root = SubResource("AnimationNodeStateMachine_ljlde")
-anim_player = NodePath("../AnimationPlayer")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_callback = 0

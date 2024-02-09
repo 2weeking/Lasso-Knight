@@ -42,4 +42,4 @@ layer_1/tile_data = PackedInt32Array(-393209, 1, 0, -393208, 1, 0, -393207, 1, 0
 position = Vector2(-167, 18)
 speed = 100
 speed_offset = 50
-capture_time = 30
+capture_time = 5

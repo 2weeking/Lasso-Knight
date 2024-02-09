@@ -2,10 +2,6 @@ extends Control
 
 func _ready():
 	randomize()
-	#$VBoxContainer/Start.grab_focus()
-
-func _process(delta):
-	pass
 
 func _on_Enter_pressed():
 	if get_tree().change_scene_to_file("res://levels/level_0.tscn") != OK:
