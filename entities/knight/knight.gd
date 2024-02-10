@@ -100,8 +100,14 @@ func _physics_process(_delta):
 		
 		var dist = position.distance_to(enemy.position)
 		
+		#var b = (enemy.global_position.direction_to(global_position)).normalized()
+		#if acos(enemy.desired_velocity.dot((enemy.global_position.direction_to(global_position)).normalized())) > deg_to_rad(60):
+		#	print("ENEMY DRAGS PLAYER.")
+		
+		var cone_of_sight = acos(enemy.desired_velocity.dot((enemy.global_position.direction_to(global_position)).normalized()))
+		
 		# Counteract own velocity with enemy velocity to stimulate rope tensiond
-		if enemy.is_in_group("capturing"):
+		if enemy.is_in_group("capturing") and dist > lasso_range * 0.25 and cone_of_sight > deg_to_rad(120):
 			velocity += enemy.desired_velocity
 		
 		# Adjust progress bar and convert dist to bar offset
@@ -164,7 +170,6 @@ func remove_rope(body: CharacterBody2D, kill: bool):
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
-			print(body.name)
 			remove_rope(body, true)
 
 func _on_hurtbox_body_entered(body):
