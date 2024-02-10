@@ -39,6 +39,7 @@ var whipping := false
 var desired_velocity := Vector2.ZERO
 var input_direction := Vector2.ZERO
 var knockback := Vector2.ZERO
+var roped = false
 
 func die():
 	queue_free()
@@ -131,6 +132,7 @@ func _physics_process(_delta):
 			# Queue free rope attached to enemy
 			rope.queue_free()
 			ropes.erase(rope)
+			roped = false
 			lasso_bar.visible = false
 	
 	velocity += knockback
@@ -165,6 +167,7 @@ func remove_rope(body: CharacterBody2D, kill: bool):
 		if body == rope.target:
 			rope.queue_free()
 			ropes.erase(rope)
+			roped = false
 	
 	# Optionally delete body attached
 	if kill:
@@ -177,5 +180,6 @@ func _on_hit_box_body_entered(body):
 
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured"):
-		if ropes.is_empty():
+		if ropes.is_empty() and not roped:
+			roped = true
 			call_deferred("add_rope", body)

@@ -201,6 +201,7 @@ size = Vector2(32, 32)
 collision_layer = 2
 script = ExtResource("1_bwy00")
 hp = 5
+lasso_goldilocks = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1akgq")
