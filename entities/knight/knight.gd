@@ -174,4 +174,5 @@ func _on_hit_box_body_entered(body):
 
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured"):
-		call_deferred("add_rope", body)
+		if ropes.is_empty():
+			call_deferred("add_rope", body)
