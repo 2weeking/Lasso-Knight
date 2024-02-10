@@ -13,7 +13,6 @@ extends CharacterBody2D
 var desired_velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 var counter_direction := Vector2.ZERO
-var knockback := Vector2.ZERO
 
 func _physics_process(_delta):
 	if is_instance_valid(player) and moving:
@@ -34,9 +33,7 @@ func _physics_process(_delta):
 	elif velocity.x > 0:
 		sprite.flip_h = false
 	
-	velocity += knockback
 	move_and_slide()
-	knockback = knockback.lerp(Vector2.ZERO, 0.1)
 
 
 func _on_hitbox_area_entered(area):
@@ -51,6 +48,3 @@ func _on_hitbox_area_entered(area):
 		# Deal knockback
 		var knock_direction = global_position.direction_to(body.global_position)
 		body.knockback = knock_direction * knockback_strength
-		# Also apply knockback to self
-		var opposite_direction = body.global_position.direction_to(global_position)
-		knockback = opposite_direction * knockback_strength
