@@ -7,11 +7,16 @@ extends CharacterBody2D
 
 func _ready():
 	velocity = (player.position-shooter.position).normalized()*speed
-	add_to_group("enemy")
+	
 	
 func _physics_process(delta):
 	move_and_slide()
+	
+		
+		
 
+func _on_alarmed():
+	pass
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():

@@ -11,19 +11,19 @@
 position = Vector2(105, 21)
 
 [node name="Charger" parent="." groups=["enemy"] instance=ExtResource("2_6c1s6")]
-position = Vector2(293, 96)
+position = Vector2(314, 153)
 
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("2_o46i8")]
-position = Vector2(316, 2)
+position = Vector2(361, -7)
 
 [node name="Enemy2" parent="." groups=["enemy"] instance=ExtResource("2_o46i8")]
-position = Vector2(51, 148)
+position = Vector2(47, 199)
 
 [node name="Enemy3" parent="." groups=["enemy"] instance=ExtResource("2_o46i8")]
-position = Vector2(26, -124)
+position = Vector2(22, -167)
 
 [node name="Enemy4" parent="." groups=["enemy"] instance=ExtResource("2_o46i8")]
 position = Vector2(-182, 17)
 
 [node name="SeedShooter" parent="." groups=["enemy"] instance=ExtResource("4_hk58d")]
-position = Vector2(-43, 4)
+position = Vector2(-86, -55)

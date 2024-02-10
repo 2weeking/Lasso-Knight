@@ -39,7 +39,7 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(-394, -7)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mtcxo"]
-radius = 100.0
+radius = 131.095
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
