@@ -164,6 +164,7 @@ func remove_rope(body: CharacterBody2D, kill: bool):
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
+			print(body.name)
 			remove_rope(body, true)
 
 func _on_hurtbox_body_entered(body):
