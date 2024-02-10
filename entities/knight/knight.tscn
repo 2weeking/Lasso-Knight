@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dja6ht0ohfpye"]
+[gd_scene load_steps=32 format=3 uid="uid://dja6ht0ohfpye"]
 
 [ext_resource type="Script" path="res://entities/knight/knight.gd" id="1_bwy00"]
 [ext_resource type="Shader" uid="uid://u7ofi1or30fe" path="res://assets/shaders/flash.tres" id="2_r5cnl"]
@@ -7,6 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://wtb0tpyhgt5v" path="res://entities/lasso/verlet_rope.tscn" id="4_45si7"]
 [ext_resource type="PackedScene" uid="uid://dvlia5gva2tk" path="res://entities/knight/player_health_ui.tscn" id="4_68lu1"]
 [ext_resource type="Texture2D" uid="uid://du1c6mmkrb8uc" path="res://assets/rope/lasso_head.png" id="4_ok8xe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1akgq"]
+resource_local_to_scene = true
+shader = ExtResource("2_r5cnl")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
+size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="Animation_6cwnc"]
 resource_name = "hurt"
@@ -36,8 +45,24 @@ tracks/1/keys = {
 "values": [0, 2]
 }
 
+[sub_resource type="Animation" id="Animation_jfkbo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Hitbox:collision_layer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jt0hl"]
 _data = {
+"RESET": SubResource("Animation_jfkbo"),
 "hurt": SubResource("Animation_6cwnc")
 }
 
@@ -158,11 +183,7 @@ states/whip/position = Vector2(513, -52)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_k2ac6"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_quseh"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_erak6"), "walk", "whip", SubResource("AnimationNodeStateMachineTransition_jn8o8"), "whip", "walk", SubResource("AnimationNodeStateMachineTransition_whoyy"), "idle", "whip", SubResource("AnimationNodeStateMachineTransition_7eetj"), "whip", "idle", SubResource("AnimationNodeStateMachineTransition_iuyh7")]
 graph_offset = Vector2(-370, -146)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1akgq"]
-resource_local_to_scene = true
-shader = ExtResource("2_r5cnl")
-shader_parameter/enabled = false
-shader_parameter/tint = Color(1, 1, 1, 1)
+[sub_resource type="CanvasTexture" id="CanvasTexture_3xjrk"]
 
 [sub_resource type="Curve2D" id="Curve2D_v218c"]
 _data = {
@@ -173,17 +194,22 @@ point_count = 5
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_an74c"]
 size = Vector2(25, 25)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcw2b"]
-size = Vector2(32, 32)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nid7g"]
 size = Vector2(32, 32)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_3xjrk"]
 
 [node name="Knight" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_bwy00")
+hp = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_1akgq")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_vql2c")
+hframes = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vcw2b")
 
 [node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimationPlayer")
@@ -206,11 +232,22 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_ljlde")
 anim_player = NodePath("../AnimationPlayer")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_1akgq")
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_vql2c")
-hframes = 9
+[node name="LassoBar" type="TextureProgressBar" parent="."]
+visible = false
+offset_left = -28.0
+offset_top = -26.0
+offset_right = 28.0
+offset_bottom = -22.0
+value = 4.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_progress = SubResource("CanvasTexture_3xjrk")
+tint_progress = Color(0, 0, 0, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_callback = 0
+position_smoothing_enabled = true
+script = ExtResource("3_56ek5")
 
 [node name="Path2D" type="Path2D" parent="."]
 visible = false
@@ -237,14 +274,6 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_an74c")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_vcw2b")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-process_callback = 0
-position_smoothing_enabled = true
-script = ExtResource("3_56ek5")
-
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 0
@@ -260,17 +289,6 @@ offset = Vector2(10, 10)
 scale = Vector2(2, 2)
 transform = Transform2D(2, 0, 0, 2, 10, 10)
 
-[node name="LassoBar" type="TextureProgressBar" parent="."]
-visible = false
-offset_left = -28.0
-offset_top = -26.0
-offset_right = 28.0
-offset_bottom = -22.0
-value = 4.0
-fill_mode = 1
-nine_patch_stretch = true
-texture_progress = SubResource("CanvasTexture_3xjrk")
-tint_progress = Color(0, 0, 0, 1)
-
+[connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_hurt_animation_player_animation_finished"]
 [connection signal="body_entered" from="Path2D/PathFollow2D/LassoHurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hit_box_body_entered"]

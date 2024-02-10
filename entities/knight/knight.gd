@@ -19,7 +19,7 @@ signal hp_changed(old_value: int, new_value: int)
 @export var lasso_range: float = 250.0
 @export var lasso_goldilocks: float = 0.5	# Green bar range percentage from 0.0 - 1.0
 
-# Sprite and animationms
+# Sprite and animations
 @onready var sprite = $Sprite2D
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
@@ -35,9 +35,10 @@ var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
 var lasso_bar_bound_upper = (lasso_range/2)+(lasso_range*lasso_goldilocks/2)
 
 var ropes = []
-var whipping = false
-var desired_velocity = Vector2.ZERO
-var input_direction = Vector2.ZERO
+var whipping := false
+var desired_velocity := Vector2.ZERO
+var input_direction := Vector2.ZERO
+var knockback := Vector2.ZERO
 
 func die():
 	queue_free()
@@ -126,7 +127,10 @@ func _physics_process(_delta):
 			ropes.erase(rope)
 			lasso_bar.visible = false
 	
+	velocity += knockback
+	
 	move_and_slide()
+	knockback = lerp(knockback, Vector2.ZERO, 0.1)
 
 func add_rope(body: CharacterBody2D):
 	# Attach rope to enemy
