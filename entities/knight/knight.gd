@@ -154,6 +154,9 @@ func add_rope(body: CharacterBody2D):
 	timer.autostart = true
 	rope.add_child(timer)
 	
+	# Add label displayed timer
+	
+	
 	body.add_to_group("capturing")
 
 func remove_rope(body: CharacterBody2D, kill: bool):

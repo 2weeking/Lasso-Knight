@@ -10,7 +10,8 @@ extends Node2D
 @export var startPin: bool = true
 @export var endPin: bool = true
 
-@onready var line2D: = $Line2D
+@onready var line2D = $Line2D
+@onready var timer_label := $TimerLabel
 
 var pos: PackedVector2Array
 var posPrev: PackedVector2Array
@@ -30,9 +31,14 @@ func resize_arrays():
 
 func init_position()->void:
 	for i in range(pointCount):
-		pos[i] = global_position + Vector2(constrain *i, 0)
-		posPrev[i] = global_position + Vector2(constrain *i, 0)
-	global_position = Vector2.ZERO
+		pos[i] = position + Vector2(constrain *i, 0)
+		posPrev[i] = position + Vector2(constrain *i, 0)
+	position = Vector2.ZERO
+
+func _process(delta):
+	if capture_timer:
+		#timer_label.global_position = get_parent().global_position
+		timer_label.set_text(str(capture_timer.get_time_left()).pad_decimals(1))
 
 func _physics_process(delta)->void:
 	#set_start(to_local(target.global_position))

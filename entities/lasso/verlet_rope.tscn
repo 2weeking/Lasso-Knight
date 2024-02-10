@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://wtb0tpyhgt5v"]
+[gd_scene load_steps=4 format=3 uid="uid://wtb0tpyhgt5v"]
 
 [ext_resource type="Script" path="res://entities/lasso/verlet_rope.gd" id="1_l1poo"]
 [ext_resource type="Texture2D" uid="uid://cu1g5p63v14nh" path="res://assets/rope/rope.png" id="2_36m5f"]
+[ext_resource type="Theme" uid="uid://cd08honuo7iqy" path="res://assets/theme.tres" id="3_xwa3c"]
 
 [node name="Rope" type="Node2D"]
 script = ExtResource("1_l1poo")
@@ -9,3 +10,11 @@ script = ExtResource("1_l1poo")
 [node name="Line2D" type="Line2D" parent="."]
 texture = ExtResource("2_36m5f")
 texture_mode = 1
+
+[node name="TimerLabel" type="Label" parent="."]
+offset_left = -5.0
+offset_top = -30.0
+offset_right = -4.0
+offset_bottom = -22.0
+theme = ExtResource("3_xwa3c")
+theme_override_font_sizes/font_size = 8
