@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://yprndcqpoamt"]
+
+[ext_resource type="Script" path="res://entities/charger/Charger.gd" id="1_lcwak"]
+[ext_resource type="Texture2D" uid="uid://thit3b44r1ab" path="res://assets/LassoKnightSprites/COWS.png" id="2_dkvwy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1x8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e3y6v"]
+
+[node name="Charger" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(2, 2)
+collision_layer = 4
+script = ExtResource("1_lcwak")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_dkvwy")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v1x8v")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_e3y6v")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

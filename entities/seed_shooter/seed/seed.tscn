@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfb0m6cu6eq6e"]
+
+[ext_resource type="Script" path="res://entities/seed_shooter/seed/seed.gd" id="1_llddj"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_gbba5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q32lk"]
+radius = 2.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c42h3"]
+size = Vector2(6, 8)
+
+[node name="Seed" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_llddj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(4, 6)
+texture = SubResource("CanvasTexture_gbba5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_q32lk")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_c42h3")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

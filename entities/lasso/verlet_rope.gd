@@ -35,7 +35,7 @@ func init_position()->void:
 		posPrev[i] = position + Vector2(constrain *i, 0)
 	position = Vector2.ZERO
 
-func _process(delta):
+func _process(_delta):
 	if capture_timer:
 		#timer_label.global_position = get_parent().global_position
 		timer_label.set_text(str(capture_timer.get_time_left()).pad_decimals(1))

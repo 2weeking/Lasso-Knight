@@ -21,6 +21,7 @@ signal hp_changed(old_value: int, new_value: int)
 
 # Sprite and animations
 @onready var sprite = $Sprite2D
+@onready var sense_range = $SenseRange
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var hurt_animation_player = $HurtAnimationPlayer
@@ -35,11 +36,11 @@ var lasso_bar_bound_lower = (lasso_range/2)-(lasso_range*lasso_goldilocks/2)
 var lasso_bar_bound_upper = (lasso_range/2)+(lasso_range*lasso_goldilocks/2)
 
 var ropes = []
-var whipping := false
 var desired_velocity := Vector2.ZERO
 var input_direction := Vector2.ZERO
 var knockback := Vector2.ZERO
 var roped = false
+@export var whipping = false
 
 func die():
 	queue_free()
@@ -179,7 +180,12 @@ func _on_hit_box_body_entered(body):
 			remove_rope(body, true)
 
 func _on_hurtbox_body_entered(body):
-	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured"):
+	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured") and "alarmed" in body:
 		if ropes.is_empty() and not roped:
 			roped = true
 			call_deferred("add_rope", body)
+
+func _on_sense_range_body_entered(body):
+	if body.is_in_group("enemy") and not body.is_in_group("captured"):
+		if "alarmed" in body:
+			body.alarmed = true
