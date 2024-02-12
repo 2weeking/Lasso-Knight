@@ -1,25 +1,72 @@
-[gd_scene load_steps=5 format=3 uid="uid://kb5gbb0qudm3"]
+[gd_scene load_steps=10 format=3 uid="uid://kb5gbb0qudm3"]
 
-[ext_resource type="Texture2D" uid="uid://c8n7jy45rivst" path="res://Temporary Sprites/icon.svg" id="1_2pbxe"]
 [ext_resource type="Script" path="res://entities/enemy/enemy.gd" id="1_qag8c"]
+[ext_resource type="Texture2D" uid="uid://dud7cysktujdk" path="res://assets/LassoKnightSprites/spritesheet.png" id="2_pjw18"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7q0qp"]
+atlas = ExtResource("2_pjw18")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i70le"]
+atlas = ExtResource("2_pjw18")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ra71s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7q0qp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i70le")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sdnq0"]
 size = Vector2(32, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bra3n"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ark4w"]
+size = Vector2(38, 37)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_sysfw"]
 
-[node name="Enemy" type="CharacterBody2D"]
-modulate = Color(1, 0, 0, 1)
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-collision_mask = 3
 script = ExtResource("1_qag8c")
+speed_offset = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_2pbxe")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_ra71s")
+autoplay = "default"
+frame_progress = 0.886095
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sdnq0")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_bra3n")
+debug_color = Color(0, 0.647059, 0.235294, 0.419608)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ark4w")
+debug_color = Color(0.933333, 0.215686, 0.360784, 0.419608)
 
 [node name="avoid_enemies" type="Area2D" parent="."]
 
@@ -27,4 +74,5 @@ shape = SubResource("RectangleShape2D_sdnq0")
 scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_sysfw")
 
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="avoid_enemies" to="." method="_on_avoid_enemies_body_entered"]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LassoKnight"
-run/main_scene="res://levels/level_0.tscn"
+run/main_scene="res://levels/MainMenu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 
 [display]
@@ -62,7 +62,8 @@ reel_in={
 
 2d_physics/layer_1="ground"
 2d_physics/layer_2="player"
-2d_physics/layer_3="enemies"
+2d_physics/layer_3="enemy"
+2d_physics/layer_4="rope"
 
 [physics]
 
