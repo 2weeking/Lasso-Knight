@@ -1,30 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://entities/knight/Knight.gd" type="Script" id=1]
 [ext_resource path="res://assets/LassoKnightSprites/BEANKNIGHT.png" type="Texture" id=2]
-
-[sub_resource type="Shader" id=4]
-code = "shader_type canvas_item;
-
-uniform bool enabled = false;
-uniform vec4 tint : hint_color = vec4(1, 1, 1, 1);
-
-void fragment() {
-	vec3 new_color = COLOR.rgb;
-
-	if(enabled)
-	{
-		new_color = tint.rgb;
-	}
-	
-	COLOR.rgb = new_color;
-}
-"
-
-[sub_resource type="ShaderMaterial" id=3]
-shader = SubResource( 4 )
-shader_param/enabled = false
-shader_param/tint = Color( 1, 1, 1, 1 )
+[ext_resource path="res://assets/shaders/flash.tres" type="Material" id=3]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -35,7 +13,7 @@ _data = {
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
+material = ExtResource( 3 )
 texture = ExtResource( 2 )
 hframes = 9
 
