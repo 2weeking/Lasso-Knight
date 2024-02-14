@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tilemap grass.png-049604554c3ada1b7a465faf912b1f43.stex"
+path="res://.import/TilemapGrass.png-990423336fbe2f5bfb47bf53e7294dfb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Actual Tileset Lv1/Tilemap grass.png"
-dest_files=[ "res://.import/Tilemap grass.png-049604554c3ada1b7a465faf912b1f43.stex" ]
+source_file="res://assets/Actual Tileset Lv1/TilemapGrass.png"
+dest_files=[ "res://.import/TilemapGrass.png-990423336fbe2f5bfb47bf53e7294dfb.stex" ]
 
 [params]
 

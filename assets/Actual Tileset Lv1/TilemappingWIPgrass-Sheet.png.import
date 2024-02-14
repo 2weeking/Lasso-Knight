@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tileset_Actual Tileset Lv1.png-3a2a205fd84a27e2a932b23edc064173.stex"
+path="res://.import/TilemappingWIPgrass-Sheet.png-a6aadd331cb1a4ddd14313fcc9e09a6a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Actual Tileset Lv1/tileset_Actual Tileset Lv1.png"
-dest_files=[ "res://.import/tileset_Actual Tileset Lv1.png-3a2a205fd84a27e2a932b23edc064173.stex" ]
+source_file="res://assets/Actual Tileset Lv1/TilemappingWIPgrass-Sheet.png"
+dest_files=[ "res://.import/TilemappingWIPgrass-Sheet.png-a6aadd331cb1a4ddd14313fcc9e09a6a.stex" ]
 
 [params]
 
