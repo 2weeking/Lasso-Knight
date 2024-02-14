@@ -2,18 +2,15 @@ extends KinematicBody2D
 
 signal hp_changed(old_value, new_value)
 
-export var hp : int = 3 setget hp_set, hp_get
+var hp : int = 3 setget hp_set
 
-func hp_set(new_hp):
+func hp_set(new_hp: int):
 	if new_hp <= 0:
 			die()
 	elif new_hp < hp:
 		hurt_animation_player.play("hurt")
-		#hp_changed.emit(hp, new_hp)
-		hp = new_hp
-
-func hp_get():
-	return hp
+	emit_signal("hp_changed", hp, new_hp)
+	hp = new_hp
 
 # Player parameters
 export var move_speed : float = 150.0
@@ -22,7 +19,7 @@ export var lasso_range: float = 250.0
 export var lasso_goldilocks: float = 0.5	# Green bar range percentage from 0.0 - 1.0
 
 # Sprite and animations
-onready var sprite = $Sprite2D
+onready var sprite = $Sprite
 onready var sense_range = $SenseRange
 onready var animation_tree = $AnimationTree
 onready var state_machine = animation_tree.get("parameters/playback")
@@ -50,7 +47,7 @@ func die():
 
 func _ready():
 	# Setup HP settergetter
-	hp = hp
+	self.hp = self.hp
 	
 	# Setup lasso bar
 	lasso_bar.max_value = lasso_range
@@ -141,7 +138,7 @@ func _physics_process(_delta):
 	
 	velocity += knockback
 	
-	move_and_slide(velocity)
+	velocity = move_and_slide(velocity)
 	knockback = lerp(knockback, Vector2.ZERO, 0.1)
 
 func add_rope(body: KinematicBody2D):
@@ -160,9 +157,6 @@ func add_rope(body: KinematicBody2D):
 	timer.autostart = true
 	rope.add_child(timer)
 	
-	# Add label displayed timer
-	
-	
 	body.add_to_group("capturing")
 
 func remove_rope(body: KinematicBody2D, kill: bool):
@@ -177,18 +171,18 @@ func remove_rope(body: KinematicBody2D, kill: bool):
 	if kill:
 		body.queue_free()
 
-func _on_hit_box_body_entered(body):
+func _on_Hitbox_body_entered(body):
 	if body.is_in_group("enemy"):
 		if body.is_in_group("captured"):
 			remove_rope(body, true)
 
-func _on_hurtbox_body_entered(body):
+func _on_LassoHurtBox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured") and "alarmed" in body:
 		if ropes.is_empty() and not roped:
 			roped = true
 			call_deferred("add_rope", body)
 
-func _on_sense_range_body_entered(body):
+func _on_SenseRange_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		if "alarmed" in body:
 			body.alarmed = true

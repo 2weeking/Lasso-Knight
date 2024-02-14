@@ -1,53 +1,385 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://entities/knight/Knight.gd" type="Script" id=1]
 [ext_resource path="res://assets/LassoKnightSprites/BEANKNIGHT.png" type="Texture" id=2]
 [ext_resource path="res://assets/shaders/flash.tres" type="Material" id=3]
+[ext_resource path="res://entities/knight/Camera2D.gd" type="Script" id=4]
+[ext_resource path="res://assets/rope/bar.png" type="Texture" id=5]
+[ext_resource path="res://entities/lasso/Rope.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/rope/lasso_head.png" type="Texture" id=7]
+[ext_resource path="res://entities/knight/PlayerHealthUI.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15, 12 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:whipping")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Path2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Path2D/PathFollow2D:unit_offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Path2D/PathFollow2D/LassoHurtBox:collision_mask")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "walk"
+length = 2.7
+loop = true
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "whip"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/LassoHurtBox:collision_mask")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 4, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Path2D/PathFollow2D:unit_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Path2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:whipping")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hitbox:collision_mask")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "hurt"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hitbox:collision_mask")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 2 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "walk"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "whip"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=21]
+states/RESET/node = SubResource( 23 )
+states/RESET/position = Vector2( 20, 113 )
+states/idle/node = SubResource( 12 )
+states/idle/position = Vector2( 287, 113 )
+states/walk/node = SubResource( 13 )
+states/walk/position = Vector2( 618, 113 )
+states/whip/node = SubResource( 14 )
+states/whip/position = Vector2( 456, -104 )
+transitions = [ "idle", "walk", SubResource( 15 ), "walk", "idle", SubResource( 16 ), "walk", "whip", SubResource( 17 ), "idle", "whip", SubResource( 18 ), "whip", "idle", SubResource( 19 ), "whip", "walk", SubResource( 20 ), "RESET", "idle", SubResource( 24 ) ]
+start_node = "RESET"
+graph_offset = Vector2( -390, -236 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 119.105
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 15, 12 )
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array(  )
+"points": PoolVector2Array( 0, 0, 0, 0, -2, 4, -37.2799, -0.0662163, 37.2799, 0.0662163, 67, -14, 0.5, -12.5, -0.5, 12.5, 137, 2, 32.9758, 0, -32.9758, 0, 66, 21, 0, 0, 0, 0, -4, 7, 0, 0, 0, 0, -2, 4 )
 }
 
-[node name="Knight" type="KinematicBody2D"]
+[sub_resource type="RectangleShape2D" id=9]
+
+[node name="Knight" type="KinematicBody2D" groups=["player"]]
+collision_layer = 2
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 3 )
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 hframes = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+self_modulate = Color( 0, 1, 0.439216, 1 )
+position = Vector2( 0.5, 3.5 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
+anims/RESET = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/walk = SubResource( 5 )
+anims/whip = SubResource( 6 )
 
 [node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
+anims/RESET = SubResource( 7 )
+anims/hurt = SubResource( 8 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 21 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+process_mode = 0
+parameters/playback = SubResource( 22 )
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-margin_right = 4.0
-margin_bottom = 14.0
+[node name="LassoBar" type="TextureProgress" parent="."]
+visible = false
+margin_left = -28.0
+margin_top = -20.0
+margin_right = 28.0
+margin_bottom = -16.0
+texture_progress = ExtResource( 5 )
+fill_mode = 1
+tint_progress = Color( 0, 0, 0, 1 )
+nine_patch_stretch = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+current = true
+process_mode = 0
+smoothing_enabled = true
+script = ExtResource( 4 )
+
+[node name="SenseRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SenseRange"]
+shape = SubResource( 10 )
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+self_modulate = Color( 0.054902, 1, 0, 1 )
+position = Vector2( 0.5, 3.5 )
+shape = SubResource( 11 )
 
 [node name="Path2D" type="Path2D" parent="."]
+visible = false
 curve = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2( -2, 4 )
+rotate = false
 
-[node name="Sprite" type="Sprite" parent="Path2D/PathFollow2D"]
+[node name="LassoHead" type="Sprite" parent="Path2D/PathFollow2D"]
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 7 )
+offset = Vector2( 0, -5 )
+
+[node name="Rope" parent="Path2D/PathFollow2D" instance=ExtResource( 6 )]
+target_path = NodePath("../../..")
 
 [node name="LassoHurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
+collision_layer = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/LassoHurtBox"]
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-
-[node name="Area2D2" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+self_modulate = Color( 0.454902, 0, 1, 1 )
+shape = SubResource( 9 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="PlayerHealthUI" parent="HUD" instance=ExtResource( 8 )]
+offset = Vector2( 10, 10 )
+scale = Vector2( 2, 2 )
+transform = Transform2D( 2, 0, 0, 2, 10, 10 )
+
+[connection signal="body_entered" from="SenseRange" to="." method="_on_SenseRange_body_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
+[connection signal="body_entered" from="Path2D/PathFollow2D/LassoHurtBox" to="." method="_on_LassoHurtBox_body_entered"]

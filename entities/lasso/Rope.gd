@@ -1,7 +1,7 @@
 extends Node2D
 
-export(NodePath) var target
-export(NodePath) var capture_timer
+export(NodePath) var target_path
+export(NodePath) var capture_timer_path
 
 export var ropeLength: float = 30
 export var constrain: float = 1	# distance between points
@@ -10,6 +10,8 @@ export var dampening: float = 0.9
 export var startPin: bool = true
 export var endPin: bool = true
 
+onready var target = get_node(target_path)
+onready var capture_timer  = get_node_or_null(capture_timer_path)
 onready var line2D = $Line2D
 onready var timer_label := $TimerLabel
 
