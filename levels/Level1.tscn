@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/Actual Tileset Lv1/TilemappingWIPgrass-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://entities/knight/Knight.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/enemy/Enemy.tscn" type="PackedScene" id=3]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilemappingWIPgrass-Sheet.png 0"
@@ -36,3 +37,6 @@ tile_data = PoolIntArray( -786454, 0, 0, -786453, 0, 0, -786452, 0, 0, -786451, 
 
 [node name="Knight" parent="." instance=ExtResource( 2 )]
 position = Vector2( 640, 366 )
+
+[node name="Enemy" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1041, 456 )

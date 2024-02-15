@@ -143,15 +143,15 @@ func _physics_process(_delta):
 
 func add_rope(body: KinematicBody2D):
 	# Attach rope to enemy
-	var rope = verlet_rope.instantiate()
-	rope.target = body
+	var rope = verlet_rope.instance()
 	add_child(rope)
+	rope.target = body
 	ropes.append(rope)
 	
 	# Attach capturing timer to enemy
 	var timer = Timer.new()
 	rope.capture_timer = timer
-	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
+	timer.process_mode = Timer.TIMER_PROCESS_PHYSICS
 	timer.wait_time = body.capture_time
 	timer.one_shot = true
 	timer.autostart = true
@@ -171,14 +171,9 @@ func remove_rope(body: KinematicBody2D, kill: bool):
 	if kill:
 		body.queue_free()
 
-func _on_Hitbox_body_entered(body):
-	if body.is_in_group("enemy"):
-		if body.is_in_group("captured"):
-			remove_rope(body, true)
-
 func _on_LassoHurtBox_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured") and "alarmed" in body:
-		if ropes.is_empty() and not roped:
+		if ropes.empty() and not roped:
 			roped = true
 			call_deferred("add_rope", body)
 
@@ -186,3 +181,8 @@ func _on_SenseRange_body_entered(body):
 	if body.is_in_group("enemy") and not body.is_in_group("captured"):
 		if "alarmed" in body:
 			body.alarmed = true
+
+func _on_Hitbox_body_entered(body):
+	if body.is_in_group("enemy"):
+		if body.is_in_group("captured"):
+			remove_rope(body, true)

@@ -264,7 +264,7 @@ graph_offset = Vector2( -390, -236 )
 radius = 119.105
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 15, 12 )
+extents = Vector2( 16, 14 )
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -325,7 +325,7 @@ smoothing_enabled = true
 script = ExtResource( 4 )
 
 [node name="SenseRange" type="Area2D" parent="."]
-collision_layer = 2
+collision_layer = 0
 collision_mask = 4
 __meta__ = {
 "_edit_group_": true
@@ -335,7 +335,7 @@ __meta__ = {
 shape = SubResource( 10 )
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 2
 __meta__ = {
 "_edit_group_": true
@@ -366,7 +366,7 @@ offset = Vector2( 0, -5 )
 target_path = NodePath("../../..")
 
 [node name="LassoHurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/LassoHurtBox"]
