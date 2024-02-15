@@ -24,7 +24,7 @@ func _physics_process(delta):
 	if is_instance_valid(player):
 		direction = (player.position - position).normalized()
 		if is_in_group("capturing"):
-			velocity = (counter_direction * speed) - player.desired_velocity
+			desired_velocity = (counter_direction * speed) - player.desired_velocity
 		elif alarmed:
 			if is_in_group("captured"):
 				speed += 10
@@ -35,7 +35,7 @@ func _physics_process(delta):
 			var steering = (desired_velocity - velocity).normalized()*steering_force
 			desired_velocity += steering
 		
-			velocity = desired_velocity
+		velocity = desired_velocity
 		
 		if velocity.x < -speed/2:
 			sprite.flip_h = true

@@ -51,6 +51,7 @@ func _ready():
 	
 	# Setup lasso bar
 	lasso_bar.max_value = lasso_range
+	lasso_bar.value = lasso_range
 	
 	# LassoBar Gradient dependent on lasso range and goldilocks
 	var gradient_texture = GradientTexture.new()
@@ -114,7 +115,7 @@ func _physics_process(_delta):
 		
 		# Adjust progress bar and convert dist to bar offset
 		lasso_bar.visible = true
-		lasso_bar.texture_progress_offset.x = -(dist/lasso_range*50)
+		lasso_bar.texture_progress_offset.x = -((dist/lasso_range*50) - 25)
 		# If in range, resume capture timer
 		if dist > lasso_bar_bound_lower and dist < lasso_bar_bound_upper:
 			timer.paused = false
@@ -126,19 +127,15 @@ func _physics_process(_delta):
 			enemy.remove_from_group("capturing")
 			enemy.add_to_group("captured")
 			enemy.modulate = Color.green
-			lasso_bar.visible = false
 		# If player is outside lasso range, break rope and reset enemy state
 		elif dist > lasso_range:
 			enemy.remove_from_group("capturing")
 			# Queue free rope attached to enemy
-			rope.queue_free()
-			ropes.erase(rope)
-			roped = false
-			lasso_bar.visible = false
+			remove_rope(enemy, false)
 	
 	velocity += knockback
 	
-	velocity = move_and_slide(velocity)
+	move_and_slide(velocity)
 	knockback = lerp(knockback, Vector2.ZERO, 0.1)
 
 func add_rope(body: KinematicBody2D):
@@ -166,6 +163,8 @@ func remove_rope(body: KinematicBody2D, kill: bool):
 			rope.queue_free()
 			ropes.erase(rope)
 			roped = false
+	
+	lasso_bar.visible = false
 	
 	# Optionally delete body attached
 	if kill:
