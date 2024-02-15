@@ -60,8 +60,6 @@ shape = SubResource( 6 )
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 self_modulate = Color( 0.968627, 0, 1, 1 )

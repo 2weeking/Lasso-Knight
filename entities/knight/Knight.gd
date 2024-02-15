@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 signal hp_changed(old_value, new_value)
 
-var hp : int = 3 setget hp_set
+export var hp : int = 3 setget hp_set
 
 func hp_set(new_hp: int):
 	if new_hp <= 0:
