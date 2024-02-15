@@ -325,8 +325,8 @@ smoothing_enabled = true
 script = ExtResource( 4 )
 
 [node name="SenseRange" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+collision_layer = 2
+collision_mask = 0
 __meta__ = {
 "_edit_group_": true
 }
@@ -336,7 +336,7 @@ shape = SubResource( 10 )
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 4
 __meta__ = {
 "_edit_group_": true
 }
@@ -380,6 +380,5 @@ offset = Vector2( 10, 10 )
 scale = Vector2( 2, 2 )
 transform = Transform2D( 2, 0, 0, 2, 10, 10 )
 
-[connection signal="body_entered" from="SenseRange" to="." method="_on_SenseRange_body_entered"]
-[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
-[connection signal="body_entered" from="Path2D/PathFollow2D/LassoHurtBox" to="." method="_on_LassoHurtBox_body_entered"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
+[connection signal="area_entered" from="Path2D/PathFollow2D/LassoHurtBox" to="." method="_on_LassoHurtBox_area_entered"]

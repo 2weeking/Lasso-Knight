@@ -10,7 +10,7 @@ export var dampening: float = 0.9
 export var startPin: bool = true
 export var endPin: bool = true
 
-onready var target = get_node(target_path)
+onready var target = get_node_or_null(target_path)
 onready var capture_timer  = get_node_or_null(capture_timer_path)
 onready var line2D = $Line2D
 onready var timer_label := $TimerLabel

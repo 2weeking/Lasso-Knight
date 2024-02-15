@@ -52,13 +52,13 @@ shape = SubResource( 5 )
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 10
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 6 )
 
 [node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 0
 collision_mask = 2
 monitoring = false
 monitorable = false
@@ -68,4 +68,3 @@ self_modulate = Color( 0.968627, 0, 1, 1 )
 shape = SubResource( 7 )
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]

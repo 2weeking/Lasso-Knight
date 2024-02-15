@@ -122,7 +122,7 @@ func _physics_process(_delta):
 			timer.paused = true
 		
 		# If timer is done, finish capturing enemy
-		if timer.get_time_left() == 0:
+		if timer.get_time_left() == 0 and enemy.is_in_group("capturing"):
 			enemy.remove_from_group("capturing")
 			enemy.add_to_group("captured")
 			enemy.modulate = Color.green
@@ -171,18 +171,22 @@ func remove_rope(body: KinematicBody2D, kill: bool):
 	if kill:
 		body.queue_free()
 
-func _on_LassoHurtBox_body_entered(body):
+func _on_Hitbox_area_entered(area):
+	var body = area.get_parent()
+	if body.is_in_group("enemy"):
+		if body.is_in_group("captured"):
+			remove_rope(body, true)
+		else:
+			# Deal damage
+			self.hp -= body.damage
+			
+			# Deal knockback
+			var knock_direction = body.global_position.direction_to(global_position)
+			knockback = knock_direction * body.knockback_strength
+
+func _on_LassoHurtBox_area_entered(area):
+	var body = area.get_parent()
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured") and "alarmed" in body:
 		if ropes.empty() and not roped:
 			roped = true
 			call_deferred("add_rope", body)
-
-func _on_SenseRange_body_entered(body):
-	if body.is_in_group("enemy") and not body.is_in_group("captured"):
-		if "alarmed" in body:
-			body.alarmed = true
-
-func _on_Hitbox_body_entered(body):
-	if body.is_in_group("enemy"):
-		if body.is_in_group("captured"):
-			remove_rope(body, true)

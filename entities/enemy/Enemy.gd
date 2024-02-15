@@ -48,16 +48,5 @@ func _physics_process(delta):
 func _on_Hitbox_area_entered(area):
 	if area.name == "LassoHurtbox":
 		counter_direction = direction * -1
-	if area.name == "Hitbox" and not is_in_group("captured"):
-		var body = area.get_parent()
-		
-		# Deal damage
-		body.hp -= damage
-		
-		# Deal knockback
-		var knock_direction = global_position.direction_to(body.global_position)
-		body.knockback = knock_direction * knockback_strength
-
-
-func _on_Hurtbox_area_entered(area):
-	print(area)
+	elif area.name == "SenseRange":
+		alarmed = true
