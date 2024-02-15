@@ -42,7 +42,7 @@ position = Vector2( 640, 366 )
 hp = 5
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
-position = Vector2( 839, 388 )
+position = Vector2( 838, 365 )
 
 [node name="Charger" parent="." instance=ExtResource( 4 )]
 position = Vector2( 838, 326 )

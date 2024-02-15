@@ -8,7 +8,7 @@ export var capture_time := 3
 export var knockback_strength := 600
 
 onready var sprite = $AnimatedSprite
-onready var player = get_parent().get_node("Knight")
+onready var player = get_parent().get_node_or_null("Knight")
 
 onready var max_movement_clock = $MaxMovementClock
 onready var min_movement_clock = $MinMovementClock
@@ -36,12 +36,14 @@ func _physics_process(_delta):
 		elif alarmed:
 			if is_in_group("captured"):
 				speed += 10
+				desired_velocity = position.direction_to(player.position)*speed
+			else:
 			
-			var distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
-			if(distance_to_player<min_distance):
-				start_move_away()
-			elif(distance_to_player>max_distance):
-				desired_velocity = (player.position-position).normalized()*speed
+				var distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
+				if(distance_to_player<min_distance):
+					start_move_away()
+				elif(distance_to_player>max_distance):
+					desired_velocity = (player.position-position).normalized()*speed
 		
 		velocity = desired_velocity
 		

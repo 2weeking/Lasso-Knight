@@ -24,7 +24,7 @@ func _physics_process(delta):
 	if is_instance_valid(player):
 		direction = (player.position - position).normalized()
 		if is_in_group("capturing"):
-			desired_velocity = (counter_direction * speed) - player.desired_velocity
+			desired_velocity = (counter_direction * speed)
 		elif alarmed:
 			if is_in_group("captured"):
 				speed += 10

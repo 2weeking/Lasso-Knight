@@ -103,10 +103,6 @@ func _physics_process(_delta):
 		
 		var dist = position.distance_to(enemy.position)
 		
-		#var b = (enemy.global_position.direction_to(global_position)).normalized()
-		#if acos(enemy.desired_velocity.dot((enemy.global_position.direction_to(global_position)).normalized())) > deg_to_rad(60):
-		#	print("ENEMY DRAGS PLAYER.")
-		
 		var cone_of_sight = acos(enemy.desired_velocity.dot((enemy.global_position.direction_to(global_position)).normalized()))
 		
 		# Counteract own velocity with enemy velocity to stimulate rope tensiond
@@ -183,7 +179,7 @@ func _on_Hitbox_area_entered(area):
 			var knock_direction = body.global_position.direction_to(global_position)
 			knockback = knock_direction * body.knockback_strength
 
-func _on_LassoHurtBox_area_entered(area):
+func _on_LassoHurtbox_area_entered(area):
 	var body = area.get_parent()
 	if body.is_in_group("enemy") and not body.is_in_group("capturing") and not body.is_in_group("captured") and "alarmed" in body:
 		if ropes.empty() and not roped:

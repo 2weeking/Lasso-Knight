@@ -63,7 +63,7 @@ tracks/3/keys = {
 "values": [ 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Path2D/PathFollow2D/LassoHurtBox:collision_mask")
+tracks/4/path = NodePath("Path2D/PathFollow2D/LassoHurtbox:collision_mask")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -113,7 +113,7 @@ tracks/0/keys = {
 resource_name = "whip"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("Path2D/PathFollow2D/LassoHurtBox:collision_mask")
+tracks/0/path = NodePath("Path2D/PathFollow2D/LassoHurtbox:collision_mask")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -366,11 +366,11 @@ offset = Vector2( 0, -5 )
 [node name="Rope" parent="Path2D/PathFollow2D" instance=ExtResource( 6 )]
 target_path = NodePath("../../..")
 
-[node name="LassoHurtBox" type="Area2D" parent="Path2D/PathFollow2D"]
+[node name="LassoHurtbox" type="Area2D" parent="Path2D/PathFollow2D"]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/LassoHurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/LassoHurtbox"]
 self_modulate = Color( 0.454902, 0, 1, 1 )
 shape = SubResource( 9 )
 
@@ -382,4 +382,4 @@ scale = Vector2( 2, 2 )
 transform = Transform2D( 2, 0, 0, 2, 10, 10 )
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
-[connection signal="area_entered" from="Path2D/PathFollow2D/LassoHurtBox" to="." method="_on_LassoHurtBox_area_entered"]
+[connection signal="area_entered" from="Path2D/PathFollow2D/LassoHurtbox" to="." method="_on_LassoHurtbox_area_entered"]
