@@ -5,16 +5,16 @@ on:
       - main
 
 env:
-  GODOT_VERSION: 4.2.1
+  GODOT_VERSION: 3.5.2
   EXPORT_NAME: LassoKnight
   PROJECT_PATH: LassoKnight
-  
+
 jobs:
   export-web:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.2.1
+      image: barichello/godot-ci:3.5.2
     steps:
       - name: Checkout
         uses: actions/checkout@v4
