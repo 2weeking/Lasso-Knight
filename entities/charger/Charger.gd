@@ -9,7 +9,7 @@ onready var player = get_parent().get_node("Knight")
 onready var sprite = $AnimatedSprite
 onready var timer = $Timer
 
-var predict_length=walk_speed/10
+var predict_length=walk_speed/10.0
 var player_predicted_position
 var alarmed = false
 var current_speed = 50
@@ -40,16 +40,16 @@ func _physics_process(delta):
 			
 			if(current_speed==walk_speed):
 				desired_velocity = direction * walk_speed
-				var steering = (desired_velocity - velocity).normalized()*steering_force
+				steering = (desired_velocity - velocity).normalized()*steering_force
 				desired_velocity += steering
 			if(current_speed==run_speed):
 				desired_velocity = direction*run_speed
 	
 	velocity = desired_velocity
 	
-	if velocity.x < -walk_speed/2:
+	if velocity.x < -walk_speed/2.0:
 		sprite.flip_h = true
-	elif velocity.x > walk_speed/2:
+	elif velocity.x > walk_speed/2.0:
 		sprite.flip_h = false
 	
 	velocity = move_and_slide(velocity)

@@ -47,9 +47,9 @@ func _physics_process(_delta):
 		
 		velocity = desired_velocity
 		
-		if velocity.x < -speed/2:
+		if velocity.x < -speed/2.0:
 			sprite.flip_h = true
-		elif velocity.x > speed/2:
+		elif velocity.x > speed/2.0:
 			sprite.flip_h = false
 		
 		velocity = move_and_slide(velocity)

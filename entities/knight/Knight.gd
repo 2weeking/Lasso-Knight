@@ -131,7 +131,7 @@ func _physics_process(_delta):
 	
 	velocity += knockback
 	
-	move_and_slide(velocity)
+	velocity = move_and_slide(velocity)
 	knockback = lerp(knockback, Vector2.ZERO, 0.1)
 
 func add_rope(body: KinematicBody2D):
