@@ -1,3 +1,4 @@
+# /github/home/.local/share/godot/templates/3.5.1.stable/webassembly_debug.zip
 name: "godot-ci export"
 on: 
   push:
@@ -23,8 +24,8 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          cd ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          cd ~/.local/share/godot/templates/${GODOT_VERSION}.stable
           ls -l
       - name: Web Build
         run: |
