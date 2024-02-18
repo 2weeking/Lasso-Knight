@@ -43,7 +43,7 @@ var roped = false
 export var whipping = false
 
 func die():
-	queue_free()
+	get_tree().change_scene("res://levels/GameOver.tscn")
 
 func _ready():
 	# Setup HP settergetter
