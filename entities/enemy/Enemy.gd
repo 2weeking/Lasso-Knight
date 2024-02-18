@@ -42,6 +42,11 @@ func _physics_process(delta):
 		elif velocity.x > speed/2.0:
 			sprite.flip_h = false
 		
+		if velocity != Vector2.ZERO:
+			sprite.play("walk")
+		else:
+			sprite.play("idle")
+		
 		velocity = move_and_slide(velocity)
 
 func _on_Hitbox_area_entered(area):
