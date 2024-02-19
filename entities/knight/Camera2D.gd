@@ -2,9 +2,10 @@ extends Camera2D
 
 # Radius of the zone in the middle of the screen where the cam doesn't move
 const DEAD_ZONE = 80
+var track_player = true
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion: # If the mouse moved...
+	if event is InputEventMouseMotion and track_player: # If the mouse moved...
 		var _target = event.position - get_viewport().get_visible_rect().size * 0.5	# Get the mouse position relative to the middle of the screen
 		if _target.length() < DEAD_ZONE:	# If we're in the middle (dead zone)...
 			self.position = Vector2(0,0)	# ... reset the camera to the middle (= center on player)

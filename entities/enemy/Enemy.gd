@@ -8,7 +8,7 @@ export var capture_time := 3
 export var knockback_strength := 600.0
 export var steering_force = 20 #used to make turning more smooth and flowing
 
-onready var player = get_parent().get_node("Knight")
+onready var player = get_tree().current_scene.get_node("Knight")
 onready var sprite = $AnimatedSprite
 
 var predict_length = 5 #enemy predicts where player will be this length of frames ahead (5 is temporary number

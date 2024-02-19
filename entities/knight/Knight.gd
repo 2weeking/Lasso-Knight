@@ -40,7 +40,8 @@ var desired_velocity := Vector2.ZERO
 var input_direction := Vector2.ZERO
 var knockback := Vector2.ZERO
 var roped = false
-export var whipping = false
+var freeze = false
+var whipping = false
 
 func die():
 	get_tree().change_scene("res://levels/GameOver.tscn")
@@ -131,7 +132,8 @@ func _physics_process(_delta):
 	
 	velocity += knockback
 	
-	velocity = move_and_slide(velocity)
+	if not freeze:
+		velocity = move_and_slide(velocity)
 	knockback = lerp(knockback, Vector2.ZERO, 0.1)
 
 func add_rope(body: KinematicBody2D):
