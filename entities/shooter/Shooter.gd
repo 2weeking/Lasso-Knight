@@ -21,7 +21,8 @@ onready var rng = RandomNumberGenerator.new()
 var velocity := Vector2.ZERO
 var desired_velocity := Vector2.ZERO
 var direction := Vector2.ZERO
-var counter_direction = Vector2.ZERO
+var counter_direction := Vector2.ZERO
+var distance_to_player := 0.0
 
 var alarmed := false
 var can_shoot := true
@@ -30,6 +31,7 @@ var can_shoot := true
 func _physics_process(_delta):
 	if is_instance_valid(player):
 		direction = (player.position - position).normalized()
+		distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
 		if is_in_group("capturing"):
 			desired_velocity = counter_direction * speed
 			velocity = (desired_velocity - player.desired_velocity)
@@ -39,7 +41,6 @@ func _physics_process(_delta):
 				desired_velocity = position.direction_to(player.position)*speed
 			else:
 			
-				var distance_to_player = sqrt(global_position.distance_squared_to(player.global_position))
 				if(distance_to_player<min_distance):
 					start_move_away()
 				elif(distance_to_player>max_distance):
@@ -54,7 +55,7 @@ func _physics_process(_delta):
 		
 		velocity = move_and_slide(velocity)
 		
-		if(can_shoot):
+		if(can_shoot and distance_to_player < max_distance):
 			var bullet = bullet_scene.instance()
 			get_parent().add_child(bullet)
 			
