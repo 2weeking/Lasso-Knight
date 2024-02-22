@@ -22,5 +22,5 @@ func _on_Hitbox_area_entered(area):
 		else:
 			sprite.flip_h = false
 			sprite.play("mad")
-			cutscene.dialog = "MY CATTLE! WHAT HAVE YOU DONE!!!!!!"
+			cutscene.dialog = "MY CATTLE! WHAT HAVE YOU DONE!!!!!! YOU WILL PAY FOR THIS!!!!!!"
 			cutscene.play_cutscene()

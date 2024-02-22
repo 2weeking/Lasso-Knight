@@ -202,7 +202,7 @@ theme = ExtResource( 12 )
 text = "Make sure to stay within range (green bar) until the timer hits zero to capture!"
 
 [node name="Knight" parent="." instance=ExtResource( 2 )]
-position = Vector2( -109, 311 )
+position = Vector2( 3417, 107 )
 hp = 5
 
 [node name="Farmhouse" type="Sprite" parent="."]

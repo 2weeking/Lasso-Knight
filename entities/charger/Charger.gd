@@ -55,7 +55,7 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	
 func _on_Timer_timeout():
-	if make_charge:
+	if make_charge and not is_in_group("capturing"):
 		set_modulate(Color.red)
 		current_speed = run_speed
 		make_charge = false
@@ -71,3 +71,8 @@ func _on_Hitbox_area_entered(area):
 		counter_direction = (player.position - position).normalized() * -1
 	elif area.name == "SenseRange":
 		alarmed = true
+
+
+func _on_Hurtbox_area_entered(area):
+	if area.name == "Hitbox" and area.get_parent().is_in_group("player"):
+		current_speed = walk_speed
