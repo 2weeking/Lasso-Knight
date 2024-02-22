@@ -44,7 +44,8 @@ var freeze = false
 var whipping = false
 
 func die():
-	get_tree().change_scene("res://levels/GameOver.tscn")
+	if get_tree().change_scene("res://levels/GameOver.tscn") != OK:
+		print_debug("Error changing scene to GameOver")
 
 func _ready():
 	# Setup HP settergetter
