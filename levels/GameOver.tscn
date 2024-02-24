@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/sfx/game-over-sonic-type_141bpm_E_major.wav" type="AudioStream" id=1]
+[ext_resource path="res://assets/sfx/music/game-over-sonic-type_141bpm_E_major.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/theme.tres" type="Theme" id=3]
 [ext_resource path="res://levels/MainMenu.gd" type="Script" id=4]
 
