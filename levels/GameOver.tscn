@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
+[ext_resource path="res://assets/sfx/game-over-sonic-type_141bpm_E_major.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/theme.tres" type="Theme" id=3]
 [ext_resource path="res://levels/MainMenu.gd" type="Script" id=4]
 
@@ -16,6 +17,11 @@ font_data = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -10.0
+autoplay = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_right = 1304.0

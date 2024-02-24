@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/Actual Tileset Lv1/TilemappingWIPgrass-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://entities/knight/Knight.tscn" type="PackedScene" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/Gerald's Keys/Keys/W-Key.png" type="Texture" id=5]
 [ext_resource path="res://assets/Actual Tileset Lv1/tilesetpath.png" type="Texture" id=6]
 [ext_resource path="res://assets/Actual Tileset Lv1/GreatFencing.png" type="Texture" id=7]
-[ext_resource path="res://assets/Actual Tileset Lv1/farmhouse.png" type="Texture" id=8]
+[ext_resource path="res://entities/farmhouse/Farmhouse.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/Gerald's Keys/Keys/D-Key.png" type="Texture" id=9]
 [ext_resource path="res://entities/farmer/Farmer.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/Gerald's Keys/Keys/A-Key.png" type="Texture" id=11]
@@ -15,6 +15,7 @@
 [ext_resource path="res://entities/charger/Charger.tscn" type="PackedScene" id=13]
 [ext_resource path="res://entities/shooter/Shooter.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/door/Door.tscn" type="PackedScene" id=15]
+[ext_resource path="res://assets/sfx/music/xDeviruchi - Take some rest and eat some food!.wav" type="AudioStream" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilemappingWIPgrass-Sheet.png 0"
@@ -142,6 +143,11 @@ points = PoolVector2Array( 0, 3.22153, 20.3461, 3.22153, 20.7499, 32, 0, 32 )
 
 [node name="Level1" type="Node2D"]
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+volume_db = -10.0
+autoplay = true
+
 [node name="GroundTileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
@@ -202,13 +208,12 @@ margin_bottom = 418.0
 theme = ExtResource( 12 )
 text = "Make sure to stay within range (green bar) until the timer hits zero to capture!"
 
-[node name="Knight" parent="." instance=ExtResource( 2 )]
-position = Vector2( -115, 318 )
-hp = 5
+[node name="Farmhouse" parent="." instance=ExtResource( 8 )]
+position = Vector2( 2329, 171 )
 
-[node name="Farmhouse" type="Sprite" parent="."]
-position = Vector2( 2339, 194 )
-texture = ExtResource( 8 )
+[node name="Knight" parent="." instance=ExtResource( 2 )]
+position = Vector2( -117, 323 )
+hp = 5
 
 [node name="Farmer" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2446, 247 )

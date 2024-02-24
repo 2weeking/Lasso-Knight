@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/Actual Tileset Lv1/TilemappingWIPgrass-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://entities/knight/Knight.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entities/princess/Princess.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/sfx/music/xDeviruchi - Prepare for Battle! .wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/Actual Tileset Lv1/tilesetpath.png" type="Texture" id=6]
 [ext_resource path="res://assets/Actual Tileset Lv1/GreatFencing.png" type="Texture" id=7]
 [ext_resource path="res://entities/charger/Charger.tscn" type="PackedScene" id=13]
@@ -132,6 +133,11 @@ points = PoolVector2Array( 0, 3.22153, 20.3461, 3.22153, 20.7499, 32, 0, 32 )
 0/z_index = 0
 
 [node name="Level3" type="Node2D"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -10.0
+autoplay = true
 
 [node name="GroundTileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
