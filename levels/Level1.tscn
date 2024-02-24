@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/Actual Tileset Lv1/TilemappingWIPgrass-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://entities/knight/Knight.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://entities/shooter/Shooter.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/door/Door.tscn" type="PackedScene" id=15]
 [ext_resource path="res://assets/sfx/music/xDeviruchi - Take some rest and eat some food!.wav" type="AudioStream" id=16]
+[ext_resource path="res://entities/cutscene/Cutscene.tscn" type="PackedScene" id=17]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilemappingWIPgrass-Sheet.png 0"
@@ -212,11 +213,14 @@ text = "Make sure to stay within range (green bar) until the timer hits zero to 
 position = Vector2( 2329, 171 )
 
 [node name="Knight" parent="." instance=ExtResource( 2 )]
-position = Vector2( -117, 323 )
+position = Vector2( -117, 320 )
 hp = 5
 
 [node name="Farmer" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2446, 247 )
+
+[node name="Cutscene" parent="Farmer" instance=ExtResource( 17 )]
+dialog = [ "Hey there young buck! I hate to be a bother, but I sure could use some help gettin' them cattle back in their pen. I appreciate it mister!" ]
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 698, 247 )

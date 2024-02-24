@@ -1,13 +1,15 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://entities/cutscene/Cutscene.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme.tres" type="Theme" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 32.0
 
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("BlackBarBottom/Label:percent_visible")
+tracks/0/path = NodePath("CanvasLayer:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -16,10 +18,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.0 ]
+"values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("BlackBarTop:rect_position")
+tracks/1/path = NodePath("CanvasLayer/BlackBarBottom:rect_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -28,10 +30,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 360 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("BlackBarBottom:rect_position")
+tracks/2/path = NodePath("CanvasLayer/BlackBarTop:rect_position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -40,10 +42,10 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 265 ) ]
+"values": [ Vector2( 0, -95 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("BlackBarBottom/Label2:visible")
+tracks/3/path = NodePath("CanvasLayer/BlackBarBottom/Label2:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -55,7 +57,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath(".:visible")
+tracks/4/path = NodePath("CanvasLayer/BlackBarBottom/Label:percent_visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -64,14 +66,14 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ false ]
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=3]
 resource_name = "end"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("BlackBarTop:rect_position")
+tracks/0/path = NodePath("CanvasLayer/BlackBarTop:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -83,7 +85,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -95 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("BlackBarBottom:rect_position")
+tracks/1/path = NodePath("CanvasLayer/BlackBarBottom:rect_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -95,7 +97,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 265 ), Vector2( 0, 360 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath(".:visible")
+tracks/2/path = NodePath("CanvasLayer:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -106,12 +108,76 @@ tracks/2/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/BlackBarBottom/Label:percent_visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CanvasLayer/BlackBarBottom/Label2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "start"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer/BlackBarTop:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -95 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/BlackBarBottom:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 360 ), Vector2( 0, 265 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "talk"
 length = 2.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("BlackBarBottom/Label:percent_visible")
+tracks/0/path = NodePath("CanvasLayer/BlackBarBottom/Label:percent_visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -123,52 +189,16 @@ tracks/0/keys = {
 "values": [ 0.0, 0.0, 1.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("BlackBarTop:rect_position")
+tracks/1/path = NodePath("CanvasLayer/BlackBarBottom/Label2:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, -95 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("BlackBarBottom:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 360 ), Vector2( 0, 265 ), Vector2( 0, 265 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("BlackBarBottom/Label2:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
 "times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath(".:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
 }
 
 [sub_resource type="DynamicFontData" id=4]
@@ -178,29 +208,36 @@ font_path = "res://assets/fonts/MinimalPixel.ttf"
 size = 8
 font_data = SubResource( 4 )
 
-[node name="Cutscene" type="CanvasLayer"]
-visible = false
+[node name="Cutscene" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource( 1 )
-texture = ExtResource( 3 )
-dialog = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+dialog = [ "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
 anims/end = SubResource( 3 )
+anims/start = SubResource( 6 )
 anims/talk = SubResource( 1 )
 
-[node name="BlackBarTop" type="ColorRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="BlackBarTop" type="ColorRect" parent="CanvasLayer"]
+margin_top = -95.0
 margin_right = 640.0
-margin_bottom = 95.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="BlackBarBottom" type="ColorRect" parent="."]
-margin_top = 265.0
+[node name="BlackBarBottom" type="ColorRect" parent="CanvasLayer"]
+margin_top = 360.0
 margin_right = 640.0
-margin_bottom = 360.0
+margin_bottom = 455.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="Label" type="Label" parent="BlackBarBottom"]
+[node name="Label" type="Label" parent="CanvasLayer/BlackBarBottom"]
 margin_left = 110.0
 margin_top = 12.0
 margin_right = 562.0
@@ -210,7 +247,7 @@ text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
 autowrap = true
 percent_visible = 0.0
 
-[node name="Label2" type="Label" parent="BlackBarBottom"]
+[node name="Label2" type="Label" parent="CanvasLayer/BlackBarBottom"]
 visible = false
 margin_left = 263.0
 margin_top = 72.0
@@ -222,3 +259,6 @@ custom_fonts/font = SubResource( 5 )
 text = "Click to continue"
 align = 1
 valign = 1
+
+[connection signal="area_entered" from="." to="." method="_on_Cutscene_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

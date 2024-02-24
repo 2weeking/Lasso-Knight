@@ -40,15 +40,10 @@ margin_right = 271.0
 margin_bottom = 60.0
 alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer"]
-margin_top = 50.0
-margin_right = 542.0
-margin_bottom = 50.0
-
 [node name="Start" type="Button" parent="VBoxContainer"]
-margin_top = 54.0
+margin_top = 52.0
 margin_right = 542.0
-margin_bottom = 70.0
+margin_bottom = 68.0
 theme = ExtResource( 3 )
 text = "Start"
 
