@@ -169,10 +169,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 10 ), null ]
+"values": [ ExtResource( 10 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("AudioStreamPlayer:playing")
@@ -213,30 +213,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 2 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("AudioStreamPlayer:stream")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ null ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("AudioStreamPlayer:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ false ]
-}
 
 [sub_resource type="Animation" id=8]
 resource_name = "hurt"
@@ -272,10 +248,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 9 ), null ]
+"values": [ ExtResource( 9 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("AudioStreamPlayer:playing")
@@ -352,7 +328,7 @@ collision_layer = 2
 script = ExtResource( 1 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 10 )
+stream = ExtResource( 9 )
 volume_db = -10.0
 
 [node name="Sprite" type="Sprite" parent="."]

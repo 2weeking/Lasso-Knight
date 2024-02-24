@@ -41,7 +41,7 @@ var input_direction := Vector2.ZERO
 var knockback := Vector2.ZERO
 var roped = false
 var freeze = false
-var whipping = false
+export var whipping = false
 
 func die():
 	if get_tree().change_scene("res://levels/GameOver.tscn") != OK:
